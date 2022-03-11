@@ -37,11 +37,10 @@ namespace Entities.Configuration
                 },
                 new Product
                 {
-                    Id= Guid.NewGuid(),
-                    Name="Onion",
-                    DefaulQuantity=2
-                }
-            );
+                    Id = Guid.NewGuid(),
+                    Name = "Onion",
+                    DefaulQuantity = 2
+                });
         }
     }
 }
