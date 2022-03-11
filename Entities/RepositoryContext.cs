@@ -4,8 +4,8 @@ namespace Entities
 {
     public class RepositoryContext : DbContext
     {
-        public DbSet<Fridge> Companies { get; set; }
-        public DbSet<Product> Employees { get; set; }
+        public DbSet<Fridge> Fridges { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<FridgeModel> FridgeModels { get; set; }
         public RepositoryContext(DbContextOptions options): base(options)
         {
