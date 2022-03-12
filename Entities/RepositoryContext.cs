@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Entities.Models;
+using Entities.Configuration;
 namespace Entities
 {
     public class RepositoryContext : DbContext
@@ -10,8 +11,10 @@ namespace Entities
         public RepositoryContext(DbContextOptions options): base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            
             builder
                 .Entity<Fridge>()
                 .HasMany(f => f.Products)
@@ -31,6 +34,9 @@ namespace Entities
                         j.HasKey(fp => new { fp.FridgeId, fp.ProductId });
                         j.ToTable("FridgeProduct");
                     });
+            builder.ApplyConfiguration(new FridgeModelConfiguration());
+            builder.ApplyConfiguration(new FridgeConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
             base.OnModelCreating(builder);
         }
     }
