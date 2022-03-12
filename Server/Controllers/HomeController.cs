@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NLog;
+﻿using Contracts;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 namespace InnowiseProject.Controllers
 {
@@ -7,19 +7,15 @@ namespace InnowiseProject.Controllers
     [Route("api/[controller]")]
     public class HomeController : ControllerBase
     {
-        private readonly ILoggerManager _logger;
-        public HomeController(ILoggerManager logger)
+        private readonly IRepositoryManager _repositoryManager;
+        public HomeController(IRepositoryManager repository)
         {
-            _logger = logger;
+            _repositoryManager = repository;
         }
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<string>> Get()
         {
-            _logger.LogInfo("Here is info message from our values controller.");
-            _logger.LogDebug("Here is debug message from our values controller.");
-            _logger.LogWarn("Here is warn message from our values controller.");
-            _logger.LogError("Here is an error message from our values controller.");
-            return new string[] { "value1", "value2" };
+            return new string[]{"ok","ok" };
         }
     }
 }
