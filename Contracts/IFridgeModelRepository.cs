@@ -1,7 +1,7 @@
 ﻿using Entities.Models;
 namespace Contracts
 {
-    public interface IFridgeModelRepository :IRepositoryBase<FridgeModel>
+    public interface IFridgeModelRepository
     {
     }
 }
