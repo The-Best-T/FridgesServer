@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 namespace Repository
 {
-    internal class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected RepositoryContext _repositoryContext;
         public RepositoryBase(RepositoryContext repositoryContext)
