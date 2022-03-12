@@ -5,10 +5,12 @@ namespace Entities.Models
 {
     public class Fridge : IBaseEntity<Guid>
     {
+
         [Column("FridgeId")]
         public Guid Id { get; set; }
         public string OwnerName { get; set; }
         [Column("ModelId")]
+        public Guid FridgeModelId { get; set; }
         public FridgeModel FridgeModel { get; set; }
         public List<Product> Products { get; set; } = new();
         public List<FridgeProduct> FridgeProducts { get; set; } = new();
