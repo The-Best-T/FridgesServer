@@ -1,6 +1,7 @@
-﻿namespace Contracts
+﻿using Entities.Models;
+namespace Contracts
 {
-    public interface IProductRepository
+    public interface IProductRepository: IRepositoryBase<Product>
     {
     }
 }

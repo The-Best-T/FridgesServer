@@ -1,6 +1,7 @@
-﻿namespace Contracts
+﻿using Entities.Models;
+namespace Contracts
 {
-    public interface IFridgeModelRepository
+    public interface IFridgeModelRepository :IRepositoryBase<FridgeModel>
     {
     }
 }
