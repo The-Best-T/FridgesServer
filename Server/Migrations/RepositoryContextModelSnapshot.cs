@@ -30,8 +30,14 @@ namespace Server.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ModelId");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -42,26 +48,30 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d3f4ea2b-6110-4470-9edd-cb8b3d9413db"),
+                            Id = new Guid("688ca6d9-cd98-4e91-993c-aa28f696b0a4"),
                             FridgeModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "Fridge1",
                             OwnerName = "Boston Griffin"
                         },
                         new
                         {
-                            Id = new Guid("ff6d827b-b8a8-447d-b072-b21c7647ba16"),
+                            Id = new Guid("96e78e54-3713-4660-b043-f32c0834a7e0"),
                             FridgeModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "Fridge2",
                             OwnerName = "Silas Evans"
                         },
                         new
                         {
-                            Id = new Guid("0eb7d17d-14d6-4bda-b75f-b91649f58299"),
+                            Id = new Guid("13471130-db56-49ad-81f3-b4e713f8f3a8"),
                             FridgeModelId = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
+                            Name = "Fridge3",
                             OwnerName = "Seth Hughes"
                         },
                         new
                         {
-                            Id = new Guid("83309c7f-7bc3-4f37-aa58-52ec0174e05d"),
+                            Id = new Guid("86bc42b0-3e71-45cc-86a2-d21bb0f05a13"),
                             FridgeModelId = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Name = "Fridge4",
                             OwnerName = "Gary Bryant"
                         });
                 });
@@ -74,7 +84,9 @@ namespace Server.Migrations
                         .HasColumnName("FridgeModelId");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -138,7 +150,9 @@ namespace Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -147,31 +161,31 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5ec6bd0e-950c-41ed-a1cb-b8ae721b9bbf"),
+                            Id = new Guid("4640326a-d8d4-47d7-ba6c-b53ac8670e6b"),
                             DefaulQuantity = 2,
                             Name = "Tomato"
                         },
                         new
                         {
-                            Id = new Guid("dd6b036b-0f61-4731-b767-cefafd53b1b1"),
+                            Id = new Guid("1c34ecf2-f332-4363-b715-d41c3877748d"),
                             DefaulQuantity = 1,
                             Name = "Lemon"
                         },
                         new
                         {
-                            Id = new Guid("31d9de02-cf0e-4f33-8c53-155682504b50"),
+                            Id = new Guid("669334fb-08cf-401e-b78e-05ccb636c185"),
                             DefaulQuantity = 1,
                             Name = "Milk"
                         },
                         new
                         {
-                            Id = new Guid("8a9b4c3a-f358-4166-8f95-72205c8cf598"),
+                            Id = new Guid("0bd3fbf2-cdef-444d-93ce-b6d422205022"),
                             DefaulQuantity = 5,
                             Name = "Potato"
                         },
                         new
                         {
-                            Id = new Guid("37652645-2c6e-4b39-9ebc-fdf67aebbfbf"),
+                            Id = new Guid("5206e205-1869-4e47-9278-1e49f5bfe33d"),
                             DefaulQuantity = 2,
                             Name = "Onion"
                         });

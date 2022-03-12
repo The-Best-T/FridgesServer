@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Configuration;
 using Entities.Models;
-using Entities.Configuration;
+using Microsoft.EntityFrameworkCore;
 namespace Entities
 {
     public class RepositoryContext : DbContext
@@ -8,13 +8,13 @@ namespace Entities
         public DbSet<Fridge> Fridges { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<FridgeModel> FridgeModels { get; set; }
-        public RepositoryContext(DbContextOptions options): base(options)
+        public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+
             builder
                 .Entity<Fridge>()
                 .HasMany(f => f.Products)

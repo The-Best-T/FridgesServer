@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Server.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20220311225433_AddFridgeModelId")]
-    partial class AddFridgeModelId
+    [Migration("20220312113014_AddFridgeName")]
+    partial class AddFridgeName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,14 +32,50 @@ namespace Server.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ModelId");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FridgeModelId");
 
                     b.ToTable("Fridges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("688ca6d9-cd98-4e91-993c-aa28f696b0a4"),
+                            FridgeModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "Fridge1",
+                            OwnerName = "Boston Griffin"
+                        },
+                        new
+                        {
+                            Id = new Guid("96e78e54-3713-4660-b043-f32c0834a7e0"),
+                            FridgeModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "Fridge2",
+                            OwnerName = "Silas Evans"
+                        },
+                        new
+                        {
+                            Id = new Guid("13471130-db56-49ad-81f3-b4e713f8f3a8"),
+                            FridgeModelId = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
+                            Name = "Fridge3",
+                            OwnerName = "Seth Hughes"
+                        },
+                        new
+                        {
+                            Id = new Guid("86bc42b0-3e71-45cc-86a2-d21bb0f05a13"),
+                            FridgeModelId = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Name = "Fridge4",
+                            OwnerName = "Gary Bryant"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.FridgeModel", b =>
@@ -50,7 +86,9 @@ namespace Server.Migrations
                         .HasColumnName("FridgeModelId");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -58,6 +96,26 @@ namespace Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FridgeModels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "Beko RCSK 310M20",
+                            Year = 2018
+                        },
+                        new
+                        {
+                            Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Name = "Tesler RC-55 White",
+                            Year = 2019
+                        },
+                        new
+                        {
+                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
+                            Name = "Pozis RK-139 W",
+                            Year = 2020
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.FridgeProduct", b =>
@@ -94,11 +152,45 @@ namespace Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4640326a-d8d4-47d7-ba6c-b53ac8670e6b"),
+                            DefaulQuantity = 2,
+                            Name = "Tomato"
+                        },
+                        new
+                        {
+                            Id = new Guid("1c34ecf2-f332-4363-b715-d41c3877748d"),
+                            DefaulQuantity = 1,
+                            Name = "Lemon"
+                        },
+                        new
+                        {
+                            Id = new Guid("669334fb-08cf-401e-b78e-05ccb636c185"),
+                            DefaulQuantity = 1,
+                            Name = "Milk"
+                        },
+                        new
+                        {
+                            Id = new Guid("0bd3fbf2-cdef-444d-93ce-b6d422205022"),
+                            DefaulQuantity = 5,
+                            Name = "Potato"
+                        },
+                        new
+                        {
+                            Id = new Guid("5206e205-1869-4e47-9278-1e49f5bfe33d"),
+                            DefaulQuantity = 2,
+                            Name = "Onion"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Fridge", b =>
