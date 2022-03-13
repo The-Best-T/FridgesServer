@@ -1,35 +1,33 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.DTO.Product;
+using Entities.DTO.FridgeModel;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
 namespace Server.Controllers
 {
-    [Route("api/products")]
+    [Route("api/fridgemodels")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class FridgeModelsController : ControllerBase
     {
         private readonly ILoggerManager _logger;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
-        public ProductsController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public FridgeModelsController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
-
         }
-
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                var products = _repository.Product.GetAllProducts(trackChanges: false);
-                var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
-                return Ok(productsDTO);
+                var fridgemodels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
+                var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgemodels);
+                return Ok(fridgemodels);
             }
             catch (Exception ex)
             {
@@ -40,16 +38,16 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
-            var product = _repository.Product.GetProduct(id, trackChanges: false);
-            if (product == null)
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
+            if (fridgeModel == null)
             {
                 _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             else
             {
-                var productDTO = _mapper.Map<ProductDTO>(product);
-                return Ok(productDTO);
+                var fridgeModelDTO = _mapper.Map<FridgeModelDTO>(fridgeModel);
+                return Ok(fridgeModelDTO);
             }
         }
     }
