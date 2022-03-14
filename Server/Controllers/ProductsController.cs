@@ -19,23 +19,14 @@ namespace Server.Controllers
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
-
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            try
-            {
-                var products = _repository.Product.GetAllProducts(trackChanges: false);
-                var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
-                return Ok(productsDTO);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(Get)}action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var products = _repository.Product.GetAllProducts(trackChanges: false);
+            var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
+            return Ok(productsDTO);
         }
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)

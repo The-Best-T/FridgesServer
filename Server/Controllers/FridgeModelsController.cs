@@ -23,17 +23,9 @@ namespace Server.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            try
-            {
-                var fridgemodels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
-                var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgemodels);
-                return Ok(fridgemodels);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(Get)}action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var fridgemodels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
+            var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgemodels);
+            return Ok(fridgemodels);
         }
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
