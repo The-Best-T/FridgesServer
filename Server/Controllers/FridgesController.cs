@@ -24,7 +24,7 @@ namespace Server.Controllers
         public IActionResult GetFridges()
         {
 
-            var fridges = _repository.Fridge.GetAllFridges(trackChanges: false);
+            var fridges = _repository.Fridge.GetAllFridges(trackChanges: true);
             var fridgesDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
             return Ok(fridgesDTO);
 

@@ -19,8 +19,8 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Model id is a required field.")]
         public Guid ModelId { get; set; }
-        public FridgeModel Model { get; set; }
-        public List<Product> Products { get; set; } = new();
-        public List<FridgeProduct> FridgeProducts { get; set; } = new();
+        public virtual FridgeModel Model { get; set; }
+        public virtual List<Product> Products { get; set; } = new();
+        public virtual List<FridgeProduct> FridgeProducts { get; set; } = new();
     }
 }

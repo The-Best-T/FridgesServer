@@ -11,6 +11,10 @@ namespace Entities
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
