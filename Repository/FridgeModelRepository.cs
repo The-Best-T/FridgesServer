@@ -16,6 +16,7 @@ namespace Repository
         public IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges)
         {
             return FindAll(trackChanges)
+                   .OrderBy(fm => fm.Name)
                    .ToList();
         }
 
