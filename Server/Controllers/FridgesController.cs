@@ -21,7 +21,7 @@ namespace Server.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetFridges()
         {
 
             var fridges = _repository.Fridge.GetAllFridges(trackChanges: false);
@@ -30,7 +30,7 @@ namespace Server.Controllers
 
         }
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult GetFridge(Guid id)
         {
             var fridge = _repository.Fridge.GetFridge(id, trackChanges: false);
             if (fridge == null)

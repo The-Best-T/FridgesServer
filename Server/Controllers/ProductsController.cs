@@ -22,14 +22,14 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetProducts()
         {
             var products = _repository.Product.GetAllProducts(trackChanges: false);
             var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
             return Ok(productsDTO);
         }
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult GetProduct(Guid id)
         {
             var product = _repository.Product.GetProduct(id, trackChanges: false);
             if (product == null)

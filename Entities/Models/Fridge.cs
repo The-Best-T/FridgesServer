@@ -17,10 +17,9 @@ namespace Entities.Models
         [MaxLength(30, ErrorMessage = "Maximum length for the Owner name is 30 characters.")]
         public string OwnerName { get; set; }
 
-        [Column("ModelId")]
         [Required(ErrorMessage = "Model id is a required field.")]
-        public Guid FridgeModelId { get; set; }
-        public FridgeModel FridgeModel { get; set; }
+        public Guid ModelId { get; set; }
+        public FridgeModel Model { get; set; }
         public List<Product> Products { get; set; } = new();
         public List<FridgeProduct> FridgeProducts { get; set; } = new();
     }

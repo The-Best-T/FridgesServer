@@ -21,14 +21,14 @@ namespace Server.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetModels()
         {
             var fridgemodels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgemodels);
             return Ok(fridgemodels);
         }
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult GetModel(Guid id)
         {
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
             if (fridgeModel == null)

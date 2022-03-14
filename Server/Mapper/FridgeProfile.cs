@@ -8,12 +8,8 @@ namespace AutoMapper
         {
             CreateMap<Fridge, FridgeDTO>()
                 .ForMember(f => f.Model,
-                opt => opt.MapFrom(x => 
-                    new { 
-                        x.FridgeModel.Id, 
-                        x.FridgeModel.Name, 
-                        x.FridgeModel.Year 
-                    }));
+                           opt => opt.MapFrom(x => x.Model));
+
         }
     }
 }
