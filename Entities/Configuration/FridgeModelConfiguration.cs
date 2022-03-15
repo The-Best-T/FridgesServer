@@ -19,13 +19,13 @@ namespace Entities.Configuration
                 },
                 new FridgeModel
                 {
-                    Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                    Id = new Guid("c15120c7-8e1f-4e85-b7a1-93a1b6bee619"),
                     Name = "Tesler RC-55 White",
                     Year = 2019
                 },
                 new FridgeModel()
                 {
-                    Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
+                    Id = new Guid("3aca17c8-2554-49f0-b43f-cfaceb030d7f"),
                     Name = "Pozis RK-139 W",
                     Year = 2020
                 });

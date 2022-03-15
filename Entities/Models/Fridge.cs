@@ -17,11 +17,10 @@ namespace Entities.Models
         [MaxLength(30, ErrorMessage = "Maximum length for the Owner name is 30 characters.")]
         public string OwnerName { get; set; }
 
-        [Column("ModelId")]
         [Required(ErrorMessage = "Model id is a required field.")]
-        public Guid FridgeModelId { get; set; }
-        public FridgeModel FridgeModel { get; set; }
-        public List<Product> Products { get; set; } = new();
-        public List<FridgeProduct> FridgeProducts { get; set; } = new();
+        public Guid ModelId { get; set; }
+        public virtual FridgeModel Model { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<FridgeProduct> FridgeProducts { get; set; }
     }
 }

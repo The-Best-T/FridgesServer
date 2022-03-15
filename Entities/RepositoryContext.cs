@@ -11,6 +11,10 @@ namespace Entities
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +41,7 @@ namespace Entities
             builder.ApplyConfiguration(new FridgeModelConfiguration());
             builder.ApplyConfiguration(new FridgeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new FridgeProductConfiguration());
             base.OnModelCreating(builder);
         }
     }

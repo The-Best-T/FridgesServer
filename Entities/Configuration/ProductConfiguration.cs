@@ -13,31 +13,31 @@ namespace Entities.Configuration
             (
                 new Product
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("f480ecb3-2f19-4d0a-b1b5-9be38ff31a79"),
                     Name = "Tomato",
                     DefaulQuantity = 2
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("f66b7398-4bf7-48e5-843a-4a5e956fbaef"),
                     Name = "Lemon",
                     DefaulQuantity = 1
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("08e41d72-fe05-409e-ad21-9fa68f0ba520"),
                     Name = "Milk",
                     DefaulQuantity = 1
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("ac80af88-38af-46de-8cdf-207f139e9e9b"),
                     Name = "Potato",
                     DefaulQuantity = 5
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("acf54693-0041-4d12-9e18-ede3c28d62ac"),
                     Name = "Onion",
                     DefaulQuantity = 2
                 });

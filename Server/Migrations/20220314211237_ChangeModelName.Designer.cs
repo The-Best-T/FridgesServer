@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Server.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220314211237_ChangeModelName")]
+    partial class ChangeModelName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,29 +49,29 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("37f4a1cc-568c-4932-96fe-49f5b001664a"),
+                            Id = new Guid("e34e76a7-62ea-4333-b158-bb90faff3789"),
                             ModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
                             Name = "Fridge1",
                             OwnerName = "Boston Griffin"
                         },
                         new
                         {
-                            Id = new Guid("bfcadead-4c5d-4b90-86b6-68e76e65d039"),
-                            ModelId = new Guid("c15120c7-8e1f-4e85-b7a1-93a1b6bee619"),
+                            Id = new Guid("9a0d5d8c-5fdf-4d5a-8c29-cc5cea0ed972"),
+                            ModelId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
                             Name = "Fridge2",
                             OwnerName = "Silas Evans"
                         },
                         new
                         {
-                            Id = new Guid("a9e539af-02f4-40b3-a196-bdf070d850f4"),
-                            ModelId = new Guid("3aca17c8-2554-49f0-b43f-cfaceb030d7f"),
+                            Id = new Guid("d128b600-b7d0-4732-9fbd-bc9be3098f2d"),
+                            ModelId = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Name = "Fridge3",
                             OwnerName = "Seth Hughes"
                         },
                         new
                         {
-                            Id = new Guid("36d2927d-c93f-4da5-b64e-5130b974f523"),
-                            ModelId = new Guid("c15120c7-8e1f-4e85-b7a1-93a1b6bee619"),
+                            Id = new Guid("ca0276e6-e7f7-43f4-8d96-c40e8387fb90"),
+                            ModelId = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
                             Name = "Fridge4",
                             OwnerName = "Gary Bryant"
                         });
@@ -103,13 +105,13 @@ namespace Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c15120c7-8e1f-4e85-b7a1-93a1b6bee619"),
+                            Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
                             Name = "Tesler RC-55 White",
                             Year = 2019
                         },
                         new
                         {
-                            Id = new Guid("3aca17c8-2554-49f0-b43f-cfaceb030d7f"),
+                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Name = "Pozis RK-139 W",
                             Year = 2020
                         });
@@ -123,6 +125,9 @@ namespace Server.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Quantity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -133,56 +138,6 @@ namespace Server.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("FridgeProduct");
-
-                    b.HasData(
-                        new
-                        {
-                            FridgeId = new Guid("37f4a1cc-568c-4932-96fe-49f5b001664a"),
-                            ProductId = new Guid("f66b7398-4bf7-48e5-843a-4a5e956fbaef"),
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("37f4a1cc-568c-4932-96fe-49f5b001664a"),
-                            ProductId = new Guid("08e41d72-fe05-409e-ad21-9fa68f0ba520"),
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("37f4a1cc-568c-4932-96fe-49f5b001664a"),
-                            ProductId = new Guid("ac80af88-38af-46de-8cdf-207f139e9e9b"),
-                            Quantity = 6
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("bfcadead-4c5d-4b90-86b6-68e76e65d039"),
-                            ProductId = new Guid("ac80af88-38af-46de-8cdf-207f139e9e9b"),
-                            Quantity = 3
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("bfcadead-4c5d-4b90-86b6-68e76e65d039"),
-                            ProductId = new Guid("acf54693-0041-4d12-9e18-ede3c28d62ac"),
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("a9e539af-02f4-40b3-a196-bdf070d850f4"),
-                            ProductId = new Guid("08e41d72-fe05-409e-ad21-9fa68f0ba520"),
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("36d2927d-c93f-4da5-b64e-5130b974f523"),
-                            ProductId = new Guid("f480ecb3-2f19-4d0a-b1b5-9be38ff31a79"),
-                            Quantity = 3
-                        },
-                        new
-                        {
-                            FridgeId = new Guid("36d2927d-c93f-4da5-b64e-5130b974f523"),
-                            ProductId = new Guid("acf54693-0041-4d12-9e18-ede3c28d62ac"),
-                            Quantity = 1
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -207,31 +162,31 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f480ecb3-2f19-4d0a-b1b5-9be38ff31a79"),
+                            Id = new Guid("80344d69-8951-4e2d-abf5-fd65d5801342"),
                             DefaulQuantity = 2,
                             Name = "Tomato"
                         },
                         new
                         {
-                            Id = new Guid("f66b7398-4bf7-48e5-843a-4a5e956fbaef"),
+                            Id = new Guid("5494c80a-8a16-45a8-812a-3e5e5db514ad"),
                             DefaulQuantity = 1,
                             Name = "Lemon"
                         },
                         new
                         {
-                            Id = new Guid("08e41d72-fe05-409e-ad21-9fa68f0ba520"),
+                            Id = new Guid("a640c941-9723-430c-88ce-de6f4f1c1185"),
                             DefaulQuantity = 1,
                             Name = "Milk"
                         },
                         new
                         {
-                            Id = new Guid("ac80af88-38af-46de-8cdf-207f139e9e9b"),
+                            Id = new Guid("eeb0a8e9-5334-422c-8356-4861d172c77e"),
                             DefaulQuantity = 5,
                             Name = "Potato"
                         },
                         new
                         {
-                            Id = new Guid("acf54693-0041-4d12-9e18-ede3c28d62ac"),
+                            Id = new Guid("279a3151-c742-4e21-af9e-517e687afed2"),
                             DefaulQuantity = 2,
                             Name = "Onion"
                         });
@@ -240,7 +195,7 @@ namespace Server.Migrations
             modelBuilder.Entity("Entities.Models.Fridge", b =>
                 {
                     b.HasOne("Entities.Models.FridgeModel", "Model")
-                        .WithMany("Fridges")
+                        .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -270,11 +225,6 @@ namespace Server.Migrations
             modelBuilder.Entity("Entities.Models.Fridge", b =>
                 {
                     b.Navigation("FridgeProducts");
-                });
-
-            modelBuilder.Entity("Entities.Models.FridgeModel", b =>
-                {
-                    b.Navigation("Fridges");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>

@@ -13,8 +13,8 @@ namespace Entities.Models
         [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
         public string Name { get; set; }
         public int DefaulQuantity { get; set; }
-        public List<Fridge> Fridges { get; set; } = new();
-        public List<FridgeProduct> FridgeProducts { get; set; } = new();
+        public virtual ICollection<Fridge> Fridges { get; set; }
+        public virtual ICollection<FridgeProduct> FridgeProducts { get; set; }
 
     }
 }
