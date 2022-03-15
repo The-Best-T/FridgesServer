@@ -41,6 +41,7 @@ namespace Entities
             builder.ApplyConfiguration(new FridgeModelConfiguration());
             builder.ApplyConfiguration(new FridgeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new FridgeProductConfiguration());
             base.OnModelCreating(builder);
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Entities.DTO.FridgeProduct
+namespace Entities.DTO.Product
 {
     public class FridgeProductDTO
     {

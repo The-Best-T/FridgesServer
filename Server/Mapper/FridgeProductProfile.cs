@@ -1,5 +1,5 @@
 ﻿using Entities.Models;
-using Entities.DTO.FridgeProduct;
+using Entities.DTO.Product;
 namespace AutoMapper
 {
     public class FridgeProductProfile:Profile
