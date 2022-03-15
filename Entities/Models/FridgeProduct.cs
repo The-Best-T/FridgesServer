@@ -4,8 +4,6 @@ namespace Entities.Models
 {
     public class FridgeProduct
     {
-        public Guid Id { get; set; }
-
         [Required(ErrorMessage = "Product id is a required field.")]
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }

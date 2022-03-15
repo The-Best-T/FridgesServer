@@ -12,18 +12,17 @@ namespace Repository
             : base(repositoryContext)
         {
         }
-
-        public IEnumerable<Fridge> GetAllFridges(bool trackChanges)
+        public Fridge GetFridgeForModel(Guid modelId, Guid id, bool trackChanges)
         {
-            return FindAll(trackChanges)
-                .OrderBy(f => f.Name)
-                .ToList();
+            return FindByCondition(f => f.ModelId.Equals(modelId) && f.Id.Equals(id), trackChanges)
+                   .SingleOrDefault();              
         }
 
-        public Fridge GetFridge(Guid id, bool trackChanges)
+        public IEnumerable<Fridge> GetFridgesForModel(Guid modelId, bool trackChanges)
         {
-            return FindByCondition(f => f.Id.Equals(id), trackChanges)
-                   .SingleOrDefault();
+            return FindByCondition(f => f.ModelId.Equals(modelId), trackChanges)
+                   .OrderBy(f => f.Name)
+                   .ToList();
         }
     }
 }

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 namespace Server.Controllers
 {
-    [Route("api/fridgemodels")]
+    [Route("api/models")]
     [ApiController]
     public class FridgeModelsController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace Server.Controllers
         {
             var fridgemodels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgemodels);
-            return Ok(fridgemodels);
+            return Ok(fridgeModelsDTO);
         }
         [HttpGet("{id}")]
         public IActionResult GetModel(Guid id)
@@ -33,7 +33,7 @@ namespace Server.Controllers
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
             if (fridgeModel == null)
             {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Model with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             else

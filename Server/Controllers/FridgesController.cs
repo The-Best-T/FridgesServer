@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 namespace Server.Controllers
 {
-    [Route("api/fridges")]
+    [Route("api/models/{modelId}/fridges")]
     [ApiController]
     public class FridgesController : ControllerBase
     {
@@ -20,22 +20,19 @@ namespace Server.Controllers
             _repository = repository;
             _mapper = mapper;
         }
-        [HttpGet]
-        public IActionResult GetFridges()
-        {
-
-            var fridges = _repository.Fridge.GetAllFridges(trackChanges: true);
-            var fridgesDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
-            return Ok(fridgesDTO);
-
-        }
         [HttpGet("{id}")]
-        public IActionResult GetFridge(Guid id)
+        public IActionResult GetFridgeForModel(Guid modelId,Guid id)
         {
-            var fridge = _repository.Fridge.GetFridge(id, trackChanges: false);
+            var model = _repository.FridgeModel.GetFridgeModel(modelId, trackChanges: false);
+            if (model == null)
+            {
+                _logger.LogInfo($"Model with id: {modelId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fridge = _repository.Fridge.GetFridgeForModel(modelId, id, trackChanges: true);
             if (fridge == null)
             {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Fridge with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             else
@@ -44,5 +41,19 @@ namespace Server.Controllers
                 return Ok(fridgeDTO);
             }
         }
+        [HttpGet]
+        public IActionResult GetFridgesForModel(Guid modelId)
+        {
+            var model = _repository.FridgeModel.GetFridgeModel(modelId, trackChanges: false);
+            if (model==null)
+            {
+                _logger.LogInfo($"Model with id: {modelId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fridges=_repository.Fridge.GetFridgesForModel(modelId, trackChanges: true);
+            var fridgeDTO= _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
+            return Ok(fridgeDTO);
+        }
+
     }
 }
