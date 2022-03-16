@@ -28,7 +28,7 @@ namespace Server.Controllers
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
             return Ok(fridgeModelsDTO);
         }
-        [HttpGet("{id}", Name = "FridgeModelById")]
+        [HttpGet("{id}", Name = "GetFridgeModelById")]
         public IActionResult GetFridgeModel(Guid id)
         {
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
@@ -59,7 +59,7 @@ namespace Server.Controllers
 
             var fridgeModelToReturn = _mapper.Map<FridgeModelDTO>(fridgeModelEntity);
 
-            return CreatedAtRoute("FridgeModelById", new { id = fridgeModelToReturn.Id },
+            return CreatedAtRoute("GetFridgeModelById", new { id = fridgeModelToReturn.Id },
                                   fridgeModelToReturn);
         }
     }

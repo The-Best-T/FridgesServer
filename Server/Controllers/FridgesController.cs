@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.DTO.Fridge;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
@@ -20,7 +21,7 @@ namespace Server.Controllers
             _repository = repository;
             _mapper = mapper;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetFridgeForModel")]
         public IActionResult GetFridgeForModel(Guid fridgeModelId, Guid id)
         {
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
@@ -50,9 +51,41 @@ namespace Server.Controllers
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridges=_repository.Fridge.GetFridgesForModel(fridgeModelId, trackChanges: true);
-            var fridgeDTO= _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
+            var fridges = _repository.Fridge.GetFridgesForModel(fridgeModelId, trackChanges: true);
+            var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
             return Ok(fridgeDTO);
+        }
+
+        [HttpPost]
+        public IActionResult CreateFridgeForModel(Guid fridgeModelId,
+                                                  [FromBody] FridgeForCreationDTO fridge)
+        {
+            if (fridge == null)
+            {
+                _logger.LogError("FridgeForCreationDto object sent from client is null.");
+                return BadRequest("FridgeForCreationDto object is null");
+            }
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fridgeEntity = _mapper.Map<Fridge>(fridge);
+
+            _repository.Fridge.CreateFridgeForModel(fridgeModelId, fridgeEntity);
+            _repository.Save();
+
+            var fridgeToReturn = _mapper.Map<FridgeDTO>(fridgeEntity);
+            fridgeToReturn.ModelName = fridgeModel.Name;
+
+            return CreatedAtRoute("GetFridgeForModel",
+                new
+                {
+                    fridgeModelId,
+                    id = fridgeToReturn.Id
+                },
+                fridgeToReturn);
         }
 
     }

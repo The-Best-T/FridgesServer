@@ -31,7 +31,7 @@ namespace Server.Controllers
             return Ok(productsDTO);
         }
         [Route("products/{id}")]
-        [HttpGet(Name ="ProductById")]
+        [HttpGet(Name ="GetProductById")]
         public IActionResult GetProduct(Guid id)
         {
             var product = _repository.Product.GetProduct(id, trackChanges: false);
@@ -112,7 +112,7 @@ namespace Server.Controllers
 
             var productToReturn=_mapper.Map<ProductDTO>(productEntity);
 
-            return CreatedAtRoute("ProductById", new { id = productToReturn.Id },
+            return CreatedAtRoute("GetProductById", new { id = productToReturn.Id },
                                     productToReturn);
         }
     }

@@ -9,6 +9,7 @@ namespace AutoMapper
             CreateMap<Fridge, FridgeDTO>()
                 .ForMember(f => f.ModelName,
                            opt => opt.MapFrom(x => x.Model.Name));
+            CreateMap<FridgeForCreationDTO, Fridge>();
         }
     }
 }
