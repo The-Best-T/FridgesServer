@@ -13,6 +13,11 @@ namespace Repository
         {
         }
 
+        public void CreateFridgeModel(FridgeModel fridgeModel)
+        {
+            Create(fridgeModel);
+        }   
+
         public IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges)
         {
             return FindAll(trackChanges)
