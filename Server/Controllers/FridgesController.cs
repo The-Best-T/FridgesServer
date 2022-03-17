@@ -30,10 +30,10 @@ namespace Server.Controllers
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: true);
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId,id, trackChanges: true);
             if (fridge == null)
             {
-                _logger.LogInfo($"Fridge with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
             else

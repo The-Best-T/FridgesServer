@@ -13,6 +13,7 @@ namespace Entities.Models
         public virtual Fridge Fridge { get; set; }
 
         [Required(ErrorMessage = "Quantity is a required field.")]
+        [Range(0,99,ErrorMessage ="Quantity must be in range(0,99).")]
         public int Quantity { get; set; }
     }
 }
