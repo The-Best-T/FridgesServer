@@ -27,10 +27,12 @@ namespace Entities
                     j => j
                     .HasOne(fp => fp.Product)
                     .WithMany(p => p.FridgeProducts)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasForeignKey(fp => fp.ProductId),
                     j => j
                     .HasOne(fp => fp.Fridge)
                     .WithMany(f => f.FridgeProducts)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasForeignKey(fp => fp.FridgeId),
                     j =>
                     {
@@ -38,6 +40,12 @@ namespace Entities
                         j.HasKey(fp => new { fp.FridgeId, fp.ProductId });
                         j.ToTable("FridgeProduct");
                     });
+
+            builder.Entity<Fridge>()
+                .HasOne(f => f.Model)
+                .WithMany(m => m.Fridges)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.ApplyConfiguration(new FridgeModelConfiguration());
             builder.ApplyConfiguration(new FridgeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());

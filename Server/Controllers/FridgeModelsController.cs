@@ -52,6 +52,7 @@ namespace Server.Controllers
                 _logger.LogError("FridgeModelForCreationDto object sent from client is null.");
                 return BadRequest("FridgeModelForCreationDto object is null");
             }
+
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
 
             _repository.FridgeModel.CreateFridgeModel(fridgeModelEntity);
@@ -61,6 +62,22 @@ namespace Server.Controllers
 
             return CreatedAtRoute("GetFridgeModelById", new { id = fridgeModelToReturn.Id },
                                   fridgeModelToReturn);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFridgeModel(Guid id)
+        {
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
+            if (fridgeModel==null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _repository.FridgeModel.DeleteFridgeModel(fridgeModel);
+            _repository.Save();
+
+            return NoContent();
         }
     }
 }

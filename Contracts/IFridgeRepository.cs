@@ -11,7 +11,8 @@ namespace Contracts
         IEnumerable<FridgeProduct> GetProductsForFridge(Guid id);
         FridgeProduct GetProductForFridge(Guid id, Guid productId);
         void AddFridgeProduct(Guid fridgeId, FridgeProduct fridgeProduct);
-
+        void DeleteFridgeProduct(FridgeProduct fridgeProduct);
+        void DeleteFridge(Fridge fridge);
 
     }
 }

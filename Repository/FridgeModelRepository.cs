@@ -16,7 +16,12 @@ namespace Repository
         public void CreateFridgeModel(FridgeModel fridgeModel)
         {
             Create(fridgeModel);
-        }   
+        }
+
+        public void DeleteFridgeModel(FridgeModel fridgeModel)
+        {
+            Delete(fridgeModel);
+        }
 
         public IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges)
         {
