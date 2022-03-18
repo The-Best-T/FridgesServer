@@ -8,5 +8,6 @@ namespace Contracts
         IEnumerable<Product> GetAllProducts(bool trackChanges);
         Product GetProduct(Guid id, bool trackChanges);
         void CreateProduct(Product product);
+        void DeleteProduct(Product product);
     }
 }

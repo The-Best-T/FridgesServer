@@ -202,5 +202,22 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        [Route("products/{id}")]
+        [HttpDelete]
+        public IActionResult DeleteProduct(Guid id)
+        {
+            var product = _repository.Product.GetProduct(id, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _repository.Product.DeleteProduct(product);
+            _repository.Save();
+
+            return NoContent();
+        }
     }
 }
