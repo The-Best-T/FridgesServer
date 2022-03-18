@@ -27,6 +27,13 @@ namespace Repository
             Create(fridge);
         }
 
+        public void DeleteFridgeProduct(FridgeProduct fridgeProduct)
+        {
+            FindByCondition(f => f.Id.Equals(fridgeProduct.FridgeId), trackChanges: true)
+           .SingleOrDefault()
+           .FridgeProducts.Remove(fridgeProduct);
+        }
+
         public Fridge GetFridgeForModel(Guid fridgeModelId, Guid id, bool trackChanges)
         {
             return FindByCondition(f => f.ModelId.Equals(fridgeModelId) && f.Id.Equals(id), trackChanges)
@@ -45,7 +52,7 @@ namespace Repository
             return FindByCondition(f => f.Id.Equals(id), trackChanges: true)
                    .SingleOrDefault()
                    .FridgeProducts
-                   .SingleOrDefault(fp=>fp.ProductId.Equals(id));
+                   .SingleOrDefault(fp=>fp.ProductId.Equals(productId));
         }
 
         public IEnumerable<FridgeProduct> GetProductsForFridge(Guid id)

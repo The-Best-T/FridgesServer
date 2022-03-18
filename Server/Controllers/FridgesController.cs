@@ -30,6 +30,7 @@ namespace Server.Controllers
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
+
             var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId,id, trackChanges: true);
             if (fridge == null)
             {
@@ -51,8 +52,11 @@ namespace Server.Controllers
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
+
             var fridges = _repository.Fridge.GetFridgesForModel(fridgeModelId, trackChanges: true);
+            
             var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
+            
             return Ok(fridgeDTO);
         }
 
@@ -65,12 +69,14 @@ namespace Server.Controllers
                 _logger.LogError("FridgeForCreationDto object sent from client is null.");
                 return BadRequest("FridgeForCreationDto object is null");
             }
+
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
+
             var fridgeEntity = _mapper.Map<Fridge>(fridge);
 
             _repository.Fridge.CreateFridgeForModel(fridgeModelId, fridgeEntity);
