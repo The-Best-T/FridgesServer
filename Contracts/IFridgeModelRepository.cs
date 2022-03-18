@@ -7,5 +7,7 @@ namespace Contracts
     {
         IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges);
         FridgeModel GetFridgeModel(Guid id, bool trackChanges);
+        void CreateFridgeModel(FridgeModel fridgeModel);
+
     }
 }

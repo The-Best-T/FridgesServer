@@ -7,6 +7,7 @@ namespace AutoMapper
         public ProductProfile()
         {
             CreateMap<Product, ProductDTO>();
+            CreateMap<ProductForCreationDTO, Product>();
         }
     }
 }

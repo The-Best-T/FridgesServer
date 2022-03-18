@@ -12,6 +12,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Model name is a required field.")]
         [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
         public string Name { get; set; }
+        [Range(1700, 2022, ErrorMessage = "Wrong year.")]
         public int Year { get; set; }
         public virtual ICollection<Fridge> Fridges { get; set; }
     }

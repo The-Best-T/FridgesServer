@@ -13,6 +13,11 @@ namespace Repository
         {
         }
 
+        public void CreateProduct(Product product)
+        {
+            Create(product);
+        }
+
         public IEnumerable<Product> GetAllProducts(bool trackChanges)
         {
             return FindAll(trackChanges)

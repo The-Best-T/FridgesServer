@@ -7,6 +7,7 @@ namespace AutoMapper
         public FridgeModelProfile()
         {
             CreateMap<FridgeModel, FridgeModelDTO>();
+            CreateMap<FridgeModelForCreationDTO, FridgeModel>();
         }
     }
 }

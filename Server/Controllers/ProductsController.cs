@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.DTO.Product;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 namespace Server.Controllers
 {
     [Route("api")]
@@ -30,7 +30,7 @@ namespace Server.Controllers
             return Ok(productsDTO);
         }
         [Route("products/{id}")]
-        [HttpGet]
+        [HttpGet(Name = "GetProductById")]
         public IActionResult GetProduct(Guid id)
         {
             var product = _repository.Product.GetProduct(id, trackChanges: false);
@@ -45,45 +45,44 @@ namespace Server.Controllers
                 return Ok(productDTO);
             }
         }
-        [Route("models/{modelId}/fridges/{fridgeId}/products")]
+        [Route("fridgemodels/{fridgeModelId}/fridges/{fridgeId}/products")]
         [HttpGet]
-        public IActionResult GetProductsForFridge(Guid modelId, Guid fridgeId)
+        public IActionResult GetProductsForFridge(Guid fridgeModelId, Guid fridgeId)
         {
-            var model = _repository.FridgeModel.GetFridgeModel(modelId, trackChanges: false);
-            if (model == null)
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
             {
-                _logger.LogInfo($"Model with id: {modelId} doesn't exist in the database.");
+                _logger.LogInfo($"Model with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridge = _repository.Fridge.GetFridgeForModel(modelId, fridgeId, trackChanges: true);
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, fridgeId, trackChanges: false);
             if (fridge == null)
             {
-                _logger.LogInfo($"Fridge with id: {modelId} doesn't exist in the database.");
+                _logger.LogInfo($"Fridge with id: {fridgeId} and modelId {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridgeProducts = fridge.FridgeProducts;
+            var fridgeProducts = _repository.Fridge.GetProductsForFridge(fridgeId);
             var FridgeProductsDTO = _mapper.Map<IEnumerable<FridgeProductDTO>>(fridgeProducts);
             return Ok(FridgeProductsDTO);
         }
-        [Route("models/{modelId}/fridges/{fridgeId}/products/{id}")]
-        [HttpGet]
-        public IActionResult GetProductForFridge(Guid modelId, Guid fridgeId, Guid id)
+        [Route("fridgemodels/{fridgeModelId}/fridges/{fridgeId}/products/{id}")]
+        [HttpGet(Name = "GetProductForFridge")]
+        public IActionResult GetProductForFridge(Guid fridgeModelId, Guid fridgeId, Guid id)
         {
 
-            var model = _repository.FridgeModel.GetFridgeModel(modelId, trackChanges: false);
-            if (model == null)
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
             {
-                _logger.LogInfo($"Model with id: {modelId} doesn't exist in the database.");
+                _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridge = _repository.Fridge.GetFridgeForModel(modelId, fridgeId, trackChanges: true);
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, fridgeId, trackChanges: true);
             if (fridge == null)
             {
-                _logger.LogInfo($"Fridge with id: {modelId} doesn't exist in the database.");
+                _logger.LogInfo($"Fridge with id: {fridgeId} and modelId {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fridgeProduct=fridge.FridgeProducts
-                              .SingleOrDefault(p => p.ProductId.Equals(id));
+            var fridgeProduct = _repository.Fridge.GetProductForFridge(fridgeId, productId: id);
             if (fridgeProduct == null)
             {
                 _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
@@ -94,6 +93,70 @@ namespace Server.Controllers
                 var fridgeProductDTO = _mapper.Map<FridgeProductDTO>(fridgeProduct);
                 return Ok(fridgeProductDTO);
             }
+        }
+        [Route("products")]
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody] ProductForCreationDTO product)
+        {
+            if (product == null)
+            {
+                _logger.LogError("ProductForCreationDTO object sent from client is null.");
+                return BadRequest("ProductForCreationDTO object is null");
+            }
+            var productEntity = _mapper.Map<Product>(product);
+
+            _repository.Product.CreateProduct(productEntity);
+            _repository.Save();
+
+            var productToReturn = _mapper.Map<ProductDTO>(productEntity);
+
+            return CreatedAtRoute("GetProductById", new { id = productToReturn.Id },
+                                    productToReturn);
+        }
+        [Route("fridgemodels/{fridgeModelId}/fridges/{fridgeId}/products")]
+        [HttpPost]
+        public IActionResult AddProductInFridge(Guid fridgeModelId, Guid fridgeId,
+                                                [FromBody] FridgeProductToCreationDTO fridgeProduct)
+        {
+            if (fridgeProduct == null)
+            {
+                _logger.LogError("FridgeProductForCreationDTO object sent from client is null.");
+                return BadRequest("FridgeProductForCreationDTO object is null");
+            }
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, fridgeId, trackChanges: false);
+            if (fridge == null)
+            {
+                _logger.LogInfo($"Fridge with id: {fridgeId} and modelId {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = _repository.Product.GetProduct(fridgeProduct.ProductId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {fridgeProduct.ProductId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fridgeProductEntity = _mapper.Map<FridgeProduct>(fridgeProduct);
+
+            _repository.Fridge.AddFridgeProduct(fridgeId, fridgeProductEntity);
+            _repository.Save();
+
+            var fridgeProductToReturn = _mapper.Map<FridgeProductDTO>(fridgeProductEntity);
+            fridgeProductToReturn.ProductName = product.Name;
+            return CreatedAtRoute("GetProductForFridge",
+                                  new
+                                  {
+                                      fridgeModelId,
+                                      fridgeId,
+                                      id = fridgeProductToReturn.ProductId
+                                  },
+                                  fridgeProductToReturn); ;
+
         }
     }
 }

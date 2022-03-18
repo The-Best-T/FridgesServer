@@ -6,6 +6,6 @@ namespace Entities.DTO.Product
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int DefaulQuantity { get; set; }
+        public int DefaultQuantity { get; set; }
     }
 }
