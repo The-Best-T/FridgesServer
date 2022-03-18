@@ -27,6 +27,11 @@ namespace Repository
             Create(fridge);
         }
 
+        public void DeleteFridge(Fridge fridge)
+        {
+            Delete(fridge);
+        }
+
         public void DeleteFridgeProduct(FridgeProduct fridgeProduct)
         {
             FindByCondition(f => f.Id.Equals(fridgeProduct.FridgeId), trackChanges: true)

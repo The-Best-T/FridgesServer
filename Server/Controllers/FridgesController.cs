@@ -31,7 +31,7 @@ namespace Server.Controllers
                 return NotFound();
             }
 
-            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId,id, trackChanges: true);
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: true);
             if (fridge == null)
             {
                 _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
@@ -54,9 +54,9 @@ namespace Server.Controllers
             }
 
             var fridges = _repository.Fridge.GetFridgesForModel(fridgeModelId, trackChanges: true);
-            
+
             var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
-            
+
             return Ok(fridgeDTO);
         }
 
@@ -93,6 +93,27 @@ namespace Server.Controllers
                 },
                 fridgeToReturn);
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFridgeForModel(Guid fridgeModelId, Guid id)
+        {
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
 
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: false);
+            if (fridge == null)
+            {
+                _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _repository.Fridge.DeleteFridge(fridge);
+            _repository.Save();
+
+            return NoContent();
+        }
     }
 }
