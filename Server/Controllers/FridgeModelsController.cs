@@ -24,7 +24,7 @@ namespace Server.Controllers
         [HttpGet]
         public IActionResult GetFridgeModels()
         {
-            var fridgeModels = _repository.FridgeModel.GetAllFridgeModels(trackChanges: false);
+            var fridgeModels = _repository.FridgeModel.GetFridgeModels(trackChanges: false);
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
             return Ok(fridgeModelsDTO);
         }
@@ -79,5 +79,29 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateFridgeModel(Guid id,
+                                               [FromBody] FridgeModelForUpdateDTO fridgeModel)
+        {
+            if(fridgeModel==null)
+            {
+                _logger.LogError("FridgeModelForUpdateDTO object sent from client is null.");
+                return BadRequest("FridgeModelForUpdateDTO object is null");
+            }
+
+            var fridgeModelEntity = _repository.FridgeModel.GetFridgeModel(id, trackChanges: true);
+            if (fridgeModelEntity == null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _mapper.Map(fridgeModel, fridgeModelEntity);
+            _repository.Save();
+
+            return NoContent();
+        }
+
     }
 }

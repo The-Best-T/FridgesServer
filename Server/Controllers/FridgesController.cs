@@ -115,5 +115,34 @@ namespace Server.Controllers
 
             return NoContent();
         }
+        [HttpPut("{id}")]
+        public IActionResult UpdateFridgeForModel(Guid fridgeModelId, Guid id,
+                                                  [FromBody] FridgeForUpdateDTO fridge)
+        {
+            if (fridge == null)
+            {
+                _logger.LogError("FridgeForUpdateDTO object sent from client is null.");
+                return BadRequest("FridgeForUpdateDTO object is null");
+            }
+
+            var fridgeModel=_repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel==null)
+            {
+                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            var fridgeEntity = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: true);
+            if (fridgeEntity == null)
+            {
+                _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _mapper.Map(fridge, fridgeEntity);
+            _repository.Save();
+            
+            return NoContent();
+        }
     }
 }

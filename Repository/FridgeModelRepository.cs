@@ -23,7 +23,7 @@ namespace Repository
             Delete(fridgeModel);
         }
 
-        public IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges)
+        public IEnumerable<FridgeModel> GetFridgeModels(bool trackChanges)
         {
             return FindAll(trackChanges)
                    .OrderBy(fm => fm.Name)
