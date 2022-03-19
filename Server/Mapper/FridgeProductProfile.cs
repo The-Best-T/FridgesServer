@@ -9,7 +9,8 @@ namespace AutoMapper
             CreateMap<FridgeProduct, FridgeProductDTO>()
                 .ForMember(fp => fp.ProductName,
                            opt => opt.MapFrom(m => m.Product.Name));
-            CreateMap<FridgeProductToCreationDTO, FridgeProduct>();
+            CreateMap<FridgeProductForCreationDTO, FridgeProduct>();
+            CreateMap<FridgeProductForUpdateDTO, FridgeProduct>();
         }
     }
 }

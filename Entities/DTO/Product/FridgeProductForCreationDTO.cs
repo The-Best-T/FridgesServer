@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Entities.DTO.Product
 {
-    public class FridgeProductToCreationDTO
+    public class FridgeProductForCreationDTO
     {
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
