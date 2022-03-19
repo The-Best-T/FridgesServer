@@ -1,5 +1,5 @@
 ﻿using Entities.Models;
-using Entities.DTO.Product;
+using Entities.DTO.FridgeProduct;
 namespace AutoMapper
 {
     public class FridgeProductProfile:Profile
@@ -9,7 +9,8 @@ namespace AutoMapper
             CreateMap<FridgeProduct, FridgeProductDTO>()
                 .ForMember(fp => fp.ProductName,
                            opt => opt.MapFrom(m => m.Product.Name));
-            CreateMap<FridgeProductToCreationDTO, FridgeProduct>();
+            CreateMap<FridgeProductForCreationDTO, FridgeProduct>();
+            CreateMap<FridgeProductForUpdateDTO, FridgeProduct>();
         }
     }
 }

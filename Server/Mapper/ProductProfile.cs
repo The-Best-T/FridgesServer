@@ -8,6 +8,7 @@ namespace AutoMapper
         {
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductForCreationDTO, Product>();
+            CreateMap<ProductForUpdateDTO, Product>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Repository
 {
-    internal class FridgeModelRepository : RepositoryBase<FridgeModel>, IFridgeModelRepository
+    public class FridgeModelRepository : RepositoryBase<FridgeModel>, IFridgeModelRepository
     {
         public FridgeModelRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
@@ -23,7 +23,7 @@ namespace Repository
             Delete(fridgeModel);
         }
 
-        public IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges)
+        public IEnumerable<FridgeModel> GetFridgeModels(bool trackChanges)
         {
             return FindAll(trackChanges)
                    .OrderBy(fm => fm.Name)

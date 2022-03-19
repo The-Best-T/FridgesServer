@@ -5,7 +5,7 @@ namespace Contracts
 {
     public interface IFridgeModelRepository
     {
-        IEnumerable<FridgeModel> GetAllFridgeModels(bool trackChanges);
+        IEnumerable<FridgeModel> GetFridgeModels(bool trackChanges);
         FridgeModel GetFridgeModel(Guid id, bool trackChanges);
         void CreateFridgeModel(FridgeModel fridgeModel);
         void DeleteFridgeModel(FridgeModel fridgeModel);
