@@ -1,4 +1,4 @@
-﻿namespace Entities.DTO.Product
+﻿namespace Entities.DTO.FridgeProduct
 {
     public class FridgeProductForUpdateDTO
     {

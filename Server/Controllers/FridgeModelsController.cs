@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 namespace Server.Controllers
 {
-    [Route("api/fridgemodels")]
+    [Route("api/models")]
     [ApiController]
     public class FridgeModelsController : ControllerBase
     {
@@ -68,7 +68,7 @@ namespace Server.Controllers
         public IActionResult DeleteFridgeModel(Guid id)
         {
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
-            if (fridgeModel==null)
+            if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
                 return NotFound();

@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 namespace Server.Controllers
 {
-    [Route("api/fridgemodels/{fridgeModelId}/fridges")]
+    [Route("api/models/{fridgeModelId}/fridges")]
     [ApiController]
     public class FridgesController : ControllerBase
     {

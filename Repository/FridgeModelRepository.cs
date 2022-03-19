@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Repository
 {
-    internal class FridgeModelRepository : RepositoryBase<FridgeModel>, IFridgeModelRepository
+    public class FridgeModelRepository : RepositoryBase<FridgeModel>, IFridgeModelRepository
     {
         public FridgeModelRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
