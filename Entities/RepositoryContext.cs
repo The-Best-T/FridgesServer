@@ -8,6 +8,7 @@ namespace Entities
         public DbSet<Fridge> Fridges { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<FridgeModel> FridgeModels { get; set; }
+        public DbSet<FridgeProduct> FridgeProducts { get; set; }
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
