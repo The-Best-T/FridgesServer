@@ -125,8 +125,8 @@ namespace Server.Controllers
                 return BadRequest("FridgeForUpdateDTO object is null");
             }
 
-            var fridgeModel=_repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
-            if (fridgeModel==null)
+            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
                 return NotFound();
@@ -141,7 +141,7 @@ namespace Server.Controllers
 
             _mapper.Map(fridge, fridgeEntity);
             _repository.Save();
-            
+
             return NoContent();
         }
     }

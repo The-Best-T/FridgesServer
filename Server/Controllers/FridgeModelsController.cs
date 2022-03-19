@@ -84,7 +84,7 @@ namespace Server.Controllers
         public IActionResult UpdateFridgeModel(Guid id,
                                                [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
-            if(fridgeModel==null)
+            if (fridgeModel == null)
             {
                 _logger.LogError("FridgeModelForUpdateDTO object sent from client is null.");
                 return BadRequest("FridgeModelForUpdateDTO object is null");

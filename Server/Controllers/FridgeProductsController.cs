@@ -168,21 +168,21 @@ namespace Server.Controllers
             }
 
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
-            if (fridgeModel==null)
+            if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            var fridge=_repository.Fridge.GetFridgeForModel(fridgeModelId, fridgeId, trackChanges: false);
-            if (fridge==null)
+            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, fridgeId, trackChanges: false);
+            if (fridge == null)
             {
                 _logger.LogInfo($"Fridge with id: {fridgeId} and modelId {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
 
             var fridgeProductEntity = _repository.FridgeProduct.GetProductForFridge(fridgeId, id, trackChanges: true);
-            if (fridgeProductEntity==null)
+            if (fridgeProductEntity == null)
             {
                 _logger.LogInfo($"Product with id: {id} in fridge {fridgeId} doesn't exist in the database.");
                 return NotFound();
