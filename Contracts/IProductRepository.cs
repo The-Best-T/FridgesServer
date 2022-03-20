@@ -1,12 +1,13 @@
 ﻿using Entities.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Contracts
 {
-    public interface IProductRepository 
+    public interface IProductRepository
     {
-        IEnumerable<Product> GetAllProducts(bool trackChanges);
-        Product GetProduct(Guid id, bool trackChanges);
+        Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
+        Task<Product> GetProductAsync(Guid id, bool trackChanges);
         void CreateProduct(Product product);
         void DeleteProduct(Product product);
     }

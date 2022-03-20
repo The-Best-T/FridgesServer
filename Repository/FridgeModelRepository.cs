@@ -1,9 +1,11 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Repository
 {
     public class FridgeModelRepository : RepositoryBase<FridgeModel>, IFridgeModelRepository
@@ -23,17 +25,17 @@ namespace Repository
             Delete(fridgeModel);
         }
 
-        public IEnumerable<FridgeModel> GetFridgeModels(bool trackChanges)
+        public async Task<IEnumerable<FridgeModel>> GetFridgeModelsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
-                   .OrderBy(fm => fm.Name)
-                   .ToList();
+            return await FindAll(trackChanges)
+                        .OrderBy(fm => fm.Name)
+                        .ToListAsync();
         }
 
-        public FridgeModel GetFridgeModel(Guid id, bool trackChanges)
+        public async Task<FridgeModel> GetFridgeModelAsync(Guid id, bool trackChanges)
         {
-            return FindByCondition(fm => fm.Id.Equals(id), trackChanges)
-                   .SingleOrDefault();
+            return await FindByCondition(fm => fm.Id.Equals(id), trackChanges)
+                        .SingleOrDefaultAsync();
         }
     }
 }
