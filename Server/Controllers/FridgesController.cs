@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [Route("api/models/{fridgeModelId}/fridges")]
@@ -22,16 +23,18 @@ namespace Server.Controllers
             _mapper = mapper;
         }
         [HttpGet("{id}", Name = "GetFridgeForModel")]
-        public IActionResult GetFridgeForModel(Guid fridgeModelId, Guid id)
+        public async Task<IActionResult> GetFridgeForModel(Guid fridgeModelId, Guid id)
         {
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: true);
+            var fridge = await _repository.Fridge
+                                          .GetFridgeForModelAsync(fridgeModelId, id, trackChanges: true);
             if (fridge == null)
             {
                 _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
@@ -44,16 +47,18 @@ namespace Server.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetFridgesForModel(Guid fridgeModelId)
+        public async Task<IActionResult> GetFridgesForModel(Guid fridgeModelId)
         {
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            var fridges = _repository.Fridge.GetFridgesForModel(fridgeModelId, trackChanges: true);
+            var fridges = await _repository.Fridge
+                                           .GetFridgesForModelAsync(fridgeModelId, trackChanges: true);
 
             var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
 
@@ -61,7 +66,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateFridgeForModel(Guid fridgeModelId,
+        public async Task<IActionResult> CreateFridgeForModel(Guid fridgeModelId,
                                                   [FromBody] FridgeForCreationDTO fridge)
         {
             if (fridge == null)
@@ -76,7 +81,8 @@ namespace Server.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
@@ -86,7 +92,7 @@ namespace Server.Controllers
             var fridgeEntity = _mapper.Map<Fridge>(fridge);
 
             _repository.Fridge.CreateFridgeForModel(fridgeModelId, fridgeEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var fridgeToReturn = _mapper.Map<FridgeDTO>(fridgeEntity);
             fridgeToReturn.ModelName = fridgeModel.Name;
@@ -100,16 +106,18 @@ namespace Server.Controllers
                 fridgeToReturn);
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteFridgeForModel(Guid fridgeModelId, Guid id)
+        public async Task<IActionResult> DeleteFridgeForModel(Guid fridgeModelId, Guid id)
         {
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            var fridge = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: false);
+            var fridge = await _repository.Fridge
+                                          .GetFridgeForModelAsync(fridgeModelId, id, trackChanges: false);
             if (fridge == null)
             {
                 _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
@@ -117,13 +125,13 @@ namespace Server.Controllers
             }
 
             _repository.Fridge.DeleteFridge(fridge);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateFridgeForModel(Guid fridgeModelId, Guid id,
-                                                  [FromBody] FridgeForUpdateDTO fridge)
+        public async Task<IActionResult> UpdateFridgeForModel(Guid fridgeModelId, Guid id,
+                                                              [FromBody] FridgeForUpdateDTO fridge)
         {
             if (fridge == null)
             {
@@ -137,14 +145,16 @@ namespace Server.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
 
-            var fridgeEntity = _repository.Fridge.GetFridgeForModel(fridgeModelId, id, trackChanges: true);
+            var fridgeEntity = await _repository.Fridge
+                                                .GetFridgeForModelAsync(fridgeModelId, id, trackChanges: true);
             if (fridgeEntity == null)
             {
                 _logger.LogInfo($"Fridge with id: {id} and modelId {fridgeModelId} doesn't exist in the database.");
@@ -152,7 +162,7 @@ namespace Server.Controllers
             }
 
             _mapper.Map(fridge, fridgeEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }

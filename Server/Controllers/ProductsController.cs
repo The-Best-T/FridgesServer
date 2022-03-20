@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [Route("api/products")]
@@ -23,9 +24,9 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = _repository.Product.GetAllProducts(trackChanges: false);
+            var products = await _repository.Product.GetAllProductsAsync(trackChanges: false);
 
             var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
 
@@ -33,9 +34,9 @@ namespace Server.Controllers
         }
 
         [HttpGet("{id}", Name = "GetProductById")]
-        public IActionResult GetProduct(Guid id)
+        public async Task<IActionResult> GetProduct(Guid id)
         {
-            var product = _repository.Product.GetProduct(id, trackChanges: false);
+            var product = await _repository.Product.GetProductAsync(id, trackChanges: false);
             if (product == null)
             {
                 _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
@@ -49,7 +50,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] ProductForCreationDTO product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDTO product)
         {
             if (product == null)
             {
@@ -66,7 +67,7 @@ namespace Server.Controllers
             var productEntity = _mapper.Map<Product>(product);
 
             _repository.Product.CreateProduct(productEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var productToReturn = _mapper.Map<ProductDTO>(productEntity);
 
@@ -75,9 +76,9 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var product = _repository.Product.GetProduct(id, trackChanges: false);
+            var product = await _repository.Product.GetProductAsync(id, trackChanges: false);
             if (product == null)
             {
                 _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
@@ -85,13 +86,13 @@ namespace Server.Controllers
             }
 
             _repository.Product.DeleteProduct(product);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
         {
             if (product == null)
             {
@@ -105,10 +106,10 @@ namespace Server.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var productEntity = _repository.Product.GetProduct(id, trackChanges: true);
+            var productEntity = await _repository.Product.GetProductAsync(id, trackChanges: true);
 
             _mapper.Map(product, productEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }
