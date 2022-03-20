@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 namespace Entities.DTO.FridgeProduct
 {
-    public class FridgeProductForCreationDTO
+    public class FridgeProductForCreationDTO : FridgeProductForManipulationDTO
     {
+        [Required(ErrorMessage ="ProductId is Required field.")]
         public Guid ProductId { get; set; }
-        public int Quantity { get; set; }
     }
 }

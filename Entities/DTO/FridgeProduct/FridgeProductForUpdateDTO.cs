@@ -1,7 +1,6 @@
 ﻿namespace Entities.DTO.FridgeProduct
 {
-    public class FridgeProductForUpdateDTO
+    public class FridgeProductForUpdateDTO : FridgeProductForManipulationDTO
     {
-        public int Quantity { get; set; }
     }
 }
