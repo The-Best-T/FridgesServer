@@ -1,4 +1,5 @@
-﻿namespace Contracts
+﻿using System.Threading.Tasks;
+namespace Contracts
 {
     public interface IRepositoryManager
     {
@@ -6,7 +7,7 @@
         IFridgeRepository Fridge { get; }
         IFridgeModelRepository FridgeModel { get; }
         IFridgeProductRepository FridgeProduct { get; }
-        void Save();
+        Task SaveAsync();
     }
 
 }

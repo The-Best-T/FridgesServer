@@ -1,6 +1,6 @@
 ﻿using Contracts;
 using Entities;
-
+using System.Threading.Tasks;
 namespace Repository
 {
     public class RepositoryManager : IRepositoryManager
@@ -52,9 +52,9 @@ namespace Repository
                 return _fridgeProductRepository;
             }
         }
-        public void Save()
+        public async Task SaveAsync()
         {
-            _repositoryContext.SaveChanges();
+            await _repositoryContext.SaveChangesAsync();
         }
     }
 }

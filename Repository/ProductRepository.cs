@@ -1,9 +1,11 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Repository
 {
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
@@ -23,17 +25,17 @@ namespace Repository
             Delete(product);
         }
 
-        public IEnumerable<Product> GetAllProducts(bool trackChanges)
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
-                   .OrderBy(p => p.Name)
-                   .ToList();
+            return await FindAll(trackChanges)
+                        .OrderBy(p => p.Name)
+                        .ToListAsync();
         }
 
-        public Product GetProduct(Guid id, bool trackChanges)
+        public async Task<Product> GetProductAsync(Guid id, bool trackChanges)
         {
-            return FindByCondition(p => p.Id.Equals(id), trackChanges)
-                   .SingleOrDefault();
+            return await FindByCondition(p => p.Id.Equals(id), trackChanges)
+                        .SingleOrDefaultAsync();
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [Route("api/models")]
@@ -23,17 +24,19 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFridgeModels()
+        public async Task<IActionResult> GetFridgeModels()
         {
-            var fridgeModels = _repository.FridgeModel.GetFridgeModels(trackChanges: false);
+            var fridgeModels = await _repository.FridgeModel
+                                                .GetFridgeModelsAsync(trackChanges: false);
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
             return Ok(fridgeModelsDTO);
         }
 
         [HttpGet("{id}", Name = "GetFridgeModelById")]
-        public IActionResult GetFridgeModel(Guid id)
+        public async Task<IActionResult> GetFridgeModel(Guid id)
         {
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(id, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
@@ -47,7 +50,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateFridgeModel([FromBody] FridgeModelForCreationDTO fridgeModel)
+        public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDTO fridgeModel)
         {
             if (fridgeModel == null)
             {
@@ -64,7 +67,7 @@ namespace Server.Controllers
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
 
             _repository.FridgeModel.CreateFridgeModel(fridgeModelEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var fridgeModelToReturn = _mapper.Map<FridgeModelDTO>(fridgeModelEntity);
 
@@ -73,9 +76,10 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteFridgeModel(Guid id)
+        public async Task<IActionResult> DeleteFridgeModel(Guid id)
         {
-            var fridgeModel = _repository.FridgeModel.GetFridgeModel(id, trackChanges: false);
+            var fridgeModel = await _repository.FridgeModel
+                                               .GetFridgeModelAsync(id, trackChanges: false);
             if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
@@ -83,14 +87,14 @@ namespace Server.Controllers
             }
 
             _repository.FridgeModel.DeleteFridgeModel(fridgeModel);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateFridgeModel(Guid id,
-                                               [FromBody] FridgeModelForUpdateDTO fridgeModel)
+        public async Task<IActionResult> UpdateFridgeModel(Guid id,
+                                                           [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
             if (fridgeModel == null)
             {
@@ -104,7 +108,8 @@ namespace Server.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var fridgeModelEntity = _repository.FridgeModel.GetFridgeModel(id, trackChanges: true);
+            var fridgeModelEntity = await _repository.FridgeModel
+                                                     .GetFridgeModelAsync(id, trackChanges: true);
             if (fridgeModelEntity == null)
             {
                 _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
@@ -112,7 +117,7 @@ namespace Server.Controllers
             }
 
             _mapper.Map(fridgeModel, fridgeModelEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return NoContent();
         }
