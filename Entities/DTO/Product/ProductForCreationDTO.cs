@@ -1,8 +1,6 @@
 ﻿namespace Entities.DTO.Product
 {
-    public class ProductForCreationDTO
+    public class ProductForCreationDTO : ProductForManipulationDTO
     {
-        public string Name { get; set; }
-        public int DefaultQuantity { get; set; }
     }
 }

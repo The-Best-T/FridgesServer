@@ -1,8 +1,6 @@
 ﻿namespace Entities.DTO.FridgeModel
 {
-    public class FridgeModelForCreationDTO
+    public class FridgeModelForCreationDTO : FridgeModelForManipulationDTO
     {
-        public string Name { get; set; }
-        public int Year { get; set; }
     }
 }
