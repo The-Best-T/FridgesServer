@@ -21,6 +21,7 @@ namespace Server.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+
         [HttpGet]
         public IActionResult GetFridgeModels()
         {
@@ -28,6 +29,7 @@ namespace Server.Controllers
             var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
             return Ok(fridgeModelsDTO);
         }
+
         [HttpGet("{id}", Name = "GetFridgeModelById")]
         public IActionResult GetFridgeModel(Guid id)
         {
@@ -51,6 +53,12 @@ namespace Server.Controllers
             {
                 _logger.LogError("FridgeModelForCreationDto object sent from client is null.");
                 return BadRequest("FridgeModelForCreationDto object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FridgeModelForCreationDto object");
+                return UnprocessableEntity(ModelState);
             }
 
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
@@ -88,6 +96,12 @@ namespace Server.Controllers
             {
                 _logger.LogError("FridgeModelForUpdateDTO object sent from client is null.");
                 return BadRequest("FridgeModelForUpdateDTO object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FridgeModelForUpdateDto object");
+                return UnprocessableEntity(ModelState);
             }
 
             var fridgeModelEntity = _repository.FridgeModel.GetFridgeModel(id, trackChanges: true);

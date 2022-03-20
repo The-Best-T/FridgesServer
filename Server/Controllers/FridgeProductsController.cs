@@ -86,6 +86,12 @@ namespace Server.Controllers
                 return BadRequest("FridgeProductForCreationDTO object is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FridgeProductForCreationDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
@@ -165,6 +171,12 @@ namespace Server.Controllers
             {
                 _logger.LogError("FridgeProductForUpdateDTO object sent from client is null.");
                 return BadRequest("FridgeProductForUpdateDTO object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FridgeProductForUpdateDto object");
+                return UnprocessableEntity(ModelState);
             }
 
             var fridgeModel = _repository.FridgeModel.GetFridgeModel(fridgeModelId, trackChanges: false);

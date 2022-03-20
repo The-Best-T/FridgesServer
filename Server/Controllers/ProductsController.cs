@@ -57,6 +57,12 @@ namespace Server.Controllers
                 return BadRequest("ProductForCreationDTO object is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the ProductForCreationDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var productEntity = _mapper.Map<Product>(product);
 
             _repository.Product.CreateProduct(productEntity);
@@ -91,6 +97,12 @@ namespace Server.Controllers
             {
                 _logger.LogError("ProductForUpdateDTO object sent from client is null.");
                 return BadRequest("ProductForUpdateDTO object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the ProductForUpdateDto object");
+                return UnprocessableEntity(ModelState);
             }
 
             var productEntity = _repository.Product.GetProduct(id, trackChanges: true);
