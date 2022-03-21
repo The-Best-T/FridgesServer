@@ -35,19 +35,14 @@ namespace Server.Controllers
         }
 
         [HttpGet("{id}", Name = "GetProductById")]
-        public async Task<IActionResult> GetProduct(Guid id)
-        {
-            var product = await _repository.Product.GetProductAsync(id, trackChanges: false);
-            if (product == null)
-            {
-                _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            else
-            {
-                var productDTO = _mapper.Map<ProductDTO>(product);
-                return Ok(productDTO);
-            }
+        [ServiceFilter(typeof(ValidateProductExistsAttribute))]
+        public IActionResult GetProduct(Guid id)
+        {   
+            var product = HttpContext.Items["product"] as Product;
+
+            var productDTO = _mapper.Map<ProductDTO>(product);
+            return Ok(productDTO);
+
         }
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -65,15 +60,11 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ValidateProductExistsAttribute))]
 
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var product = await _repository.Product.GetProductAsync(id, trackChanges: false);
-            if (product == null)
-            {
-                _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var product = HttpContext.Items["product"] as Product;
 
             _repository.Product.DeleteProduct(product);
             await _repository.SaveAsync();
@@ -83,15 +74,10 @@ namespace Server.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
         {
-           
-            var productEntity = await _repository.Product.GetProductAsync(id, trackChanges: true);
-            if (productEntity==null)
-            {
-                _logger.LogInfo($"FProduct with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var productEntity = HttpContext.Items["product"] as Product;
 
             _mapper.Map(product, productEntity);
             await _repository.SaveAsync();

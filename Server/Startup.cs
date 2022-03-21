@@ -33,6 +33,7 @@ namespace Server
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateProductExistsAttribute>();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
