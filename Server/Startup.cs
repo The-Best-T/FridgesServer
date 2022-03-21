@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using Server.Extensions;
 using System.IO;
-
 namespace Server
 {
     public class Startup
@@ -32,6 +31,7 @@ namespace Server
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
+            services.ValidationAttributes();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

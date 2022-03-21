@@ -4,6 +4,7 @@ using Entities.DTO.FridgeModel;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Server.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,38 +33,21 @@ namespace Server.Controllers
             return Ok(fridgeModelsDTO);
         }
 
-        [HttpGet("{id}", Name = "GetFridgeModelById")]
-        public async Task<IActionResult> GetFridgeModel(Guid id)
+        [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
+        [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
+        public IActionResult GetFridgeModel(Guid fridgeModelId)
         {
-            var fridgeModel = await _repository.FridgeModel
-                                               .GetFridgeModelAsync(id, trackChanges: false);
-            if (fridgeModel == null)
-            {
-                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            else
-            {
-                var fridgeModelDTO = _mapper.Map<FridgeModelDTO>(fridgeModel);
-                return Ok(fridgeModelDTO);
-            }
+            var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
+
+            var fridgeModelDTO = _mapper.Map<FridgeModelDTO>(fridgeModel);
+            return Ok(fridgeModelDTO);
+
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDTO fridgeModel)
         {
-            if (fridgeModel == null)
-            {
-                _logger.LogError("FridgeModelForCreationDto object sent from client is null.");
-                return BadRequest("FridgeModelForCreationDto object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeModelForCreationDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
 
             _repository.FridgeModel.CreateFridgeModel(fridgeModelEntity);
@@ -71,20 +55,15 @@ namespace Server.Controllers
 
             var fridgeModelToReturn = _mapper.Map<FridgeModelDTO>(fridgeModelEntity);
 
-            return CreatedAtRoute("GetFridgeModelById", new { id = fridgeModelToReturn.Id },
+            return CreatedAtRoute("GetFridgeModelById", new { fridgeModelId = fridgeModelToReturn.Id },
                                   fridgeModelToReturn);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFridgeModel(Guid id)
+        [HttpDelete("{fridgeModelId}")]
+        [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
+        public async Task<IActionResult> DeleteFridgeModel(Guid fridgeModelId)
         {
-            var fridgeModel = await _repository.FridgeModel
-                                               .GetFridgeModelAsync(id, trackChanges: false);
-            if (fridgeModel == null)
-            {
-                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
             _repository.FridgeModel.DeleteFridgeModel(fridgeModel);
             await _repository.SaveAsync();
@@ -92,29 +71,13 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFridgeModel(Guid id,
-                                                           [FromBody] FridgeModelForUpdateDTO fridgeModel)
+        [HttpPut("{fridgeModelId}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
+        public async Task<IActionResult> UpdateFridgeModel(Guid fridgeModelId,
+                                                          [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
-            if (fridgeModel == null)
-            {
-                _logger.LogError("FridgeModelForUpdateDTO object sent from client is null.");
-                return BadRequest("FridgeModelForUpdateDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeModelForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
-            var fridgeModelEntity = await _repository.FridgeModel
-                                                     .GetFridgeModelAsync(id, trackChanges: true);
-            if (fridgeModelEntity == null)
-            {
-                _logger.LogInfo($"FridgeModel with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var fridgeModelEntity = HttpContext.Items["fridgeModel"] as FridgeModel;
 
             _mapper.Map(fridgeModel, fridgeModelEntity);
             await _repository.SaveAsync();
