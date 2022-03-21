@@ -4,6 +4,7 @@ using Entities.DTO.FridgeProduct;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Server.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -84,21 +85,10 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddProductInFridge(Guid fridgeModelId, Guid fridgeId,
                                                 [FromBody] FridgeProductForCreationDTO fridgeProduct)
         {
-            if (fridgeProduct == null)
-            {
-                _logger.LogError("FridgeProductForCreationDTO object sent from client is null.");
-                return BadRequest("FridgeProductForCreationDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeProductForCreationDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var fridgeModel = await _repository.FridgeModel
                                                .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
@@ -177,21 +167,10 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateProductForFridge(Guid fridgeModelId, Guid fridgeId, Guid id,
                                                                 [FromBody] FridgeProductForUpdateDTO fridgeProduct)
         {
-            if (fridgeProduct == null)
-            {
-                _logger.LogError("FridgeProductForUpdateDTO object sent from client is null.");
-                return BadRequest("FridgeProductForUpdateDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeProductForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var fridgeModel = await _repository.FridgeModel
                                                .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)

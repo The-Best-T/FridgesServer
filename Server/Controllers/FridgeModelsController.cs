@@ -4,6 +4,7 @@ using Entities.DTO.FridgeModel;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Server.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -50,20 +51,9 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDTO fridgeModel)
         {
-            if (fridgeModel == null)
-            {
-                _logger.LogError("FridgeModelForCreationDto object sent from client is null.");
-                return BadRequest("FridgeModelForCreationDto object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeModelForCreationDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
 
             _repository.FridgeModel.CreateFridgeModel(fridgeModelEntity);
@@ -93,21 +83,10 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateFridgeModel(Guid id,
                                                            [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
-            if (fridgeModel == null)
-            {
-                _logger.LogError("FridgeModelForUpdateDTO object sent from client is null.");
-                return BadRequest("FridgeModelForUpdateDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FridgeModelForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var fridgeModelEntity = await _repository.FridgeModel
                                                      .GetFridgeModelAsync(id, trackChanges: true);
             if (fridgeModelEntity == null)

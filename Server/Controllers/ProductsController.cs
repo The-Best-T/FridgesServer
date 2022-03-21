@@ -4,6 +4,7 @@ using Entities.DTO.Product;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Server.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -48,22 +49,10 @@ namespace Server.Controllers
                 return Ok(productDTO);
             }
         }
-
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDTO product)
         {
-            if (product == null)
-            {
-                _logger.LogError("ProductForCreationDTO object sent from client is null.");
-                return BadRequest("ProductForCreationDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the ProductForCreationDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var productEntity = _mapper.Map<Product>(product);
 
             _repository.Product.CreateProduct(productEntity);
@@ -76,6 +65,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id}")]
+
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var product = await _repository.Product.GetProductAsync(id, trackChanges: false);
@@ -92,20 +82,9 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
         {
-            if (product == null)
-            {
-                _logger.LogError("ProductForUpdateDTO object sent from client is null.");
-                return BadRequest("ProductForUpdateDTO object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the ProductForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var productEntity = await _repository.Product.GetProductAsync(id, trackChanges: true);
 
             _mapper.Map(product, productEntity);

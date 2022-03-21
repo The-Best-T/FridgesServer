@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
+using Server.ActionFilters;
 using Server.Extensions;
 using System.IO;
-
 namespace Server
 {
     public class Startup
@@ -32,6 +32,7 @@ namespace Server
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<ValidationFilterAttribute>();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
