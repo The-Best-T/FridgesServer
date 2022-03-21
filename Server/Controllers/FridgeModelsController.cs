@@ -33,9 +33,9 @@ namespace Server.Controllers
             return Ok(fridgeModelsDTO);
         }
 
-        [HttpGet("{id}", Name = "GetFridgeModelById")]
+        [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
-        public IActionResult GetFridgeModel(Guid id)
+        public IActionResult GetFridgeModel(Guid fridgeModelId)
         {
             var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
@@ -59,9 +59,9 @@ namespace Server.Controllers
                                   fridgeModelToReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{fridgeModelId}")]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
-        public async Task<IActionResult> DeleteFridgeModel(Guid id)
+        public async Task<IActionResult> DeleteFridgeModel(Guid fridgeModelId)
         {
             var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
@@ -71,10 +71,10 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{fridgeModelId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
-        public async Task<IActionResult> UpdateFridgeModel(Guid id,
+        public async Task<IActionResult> UpdateFridgeModel(Guid fridgeModelId,
                                                            [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
             var fridgeModelEntity = HttpContext.Items["fridgeModel"] as FridgeModel;
