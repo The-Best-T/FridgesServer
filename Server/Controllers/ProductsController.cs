@@ -85,7 +85,13 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
         {
+           
             var productEntity = await _repository.Product.GetProductAsync(id, trackChanges: true);
+            if (productEntity==null)
+            {
+                _logger.LogInfo($"FProduct with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
 
             _mapper.Map(product, productEntity);
             await _repository.SaveAsync();
