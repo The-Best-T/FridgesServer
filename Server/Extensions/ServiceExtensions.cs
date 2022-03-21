@@ -6,10 +6,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Repository;
+using Server.ActionFilters;
 namespace Server.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ValidationAttributes(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateProductExistsAttribute>();
+            services.AddScoped<ValidateFridgeModelExistsAttribute>();
+        }
         public static void ConfigureRepositoryManager(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();

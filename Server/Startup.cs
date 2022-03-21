@@ -32,8 +32,7 @@ namespace Server
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ValidationFilterAttribute>();
-            services.AddScoped<ValidateProductExistsAttribute>();
+            services.ValidationAttributes();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

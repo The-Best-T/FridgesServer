@@ -37,13 +37,14 @@ namespace Server.Controllers
         [HttpGet("{id}", Name = "GetProductById")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public IActionResult GetProduct(Guid id)
-        {   
+        {
             var product = HttpContext.Items["product"] as Product;
 
             var productDTO = _mapper.Map<ProductDTO>(product);
             return Ok(productDTO);
 
         }
+
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDTO product)
@@ -61,7 +62,6 @@ namespace Server.Controllers
 
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var product = HttpContext.Items["product"] as Product;
