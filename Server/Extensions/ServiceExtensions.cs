@@ -16,6 +16,8 @@ namespace Server.Extensions
             services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<ValidateProductExistsAttribute>();
             services.AddScoped<ValidateFridgeModelExistsAttribute>();
+            services.AddScoped<ValidateFridgeExistsAttribute>();
+
         }
         public static void ConfigureRepositoryManager(this IServiceCollection services)
         {

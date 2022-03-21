@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
-using Server.ActionFilters;
 using Server.Extensions;
 using System.IO;
 namespace Server
