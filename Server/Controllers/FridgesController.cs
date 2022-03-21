@@ -50,7 +50,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter((typeof(ValidateFridgeModelExistsAttribute)))]
         public async Task<IActionResult> CreateFridgeForModel(Guid fridgeModelId,
-                                                  [FromBody] FridgeForCreationDTO fridge)
+                                                             [FromBody] FridgeForCreationDTO fridge)
         {
             var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
@@ -66,7 +66,7 @@ namespace Server.Controllers
                 new
                 {
                     fridgeModelId,
-                    id = fridgeToReturn.Id
+                    fridgeId = fridgeToReturn.Id
                 },
                 fridgeToReturn);
         }
@@ -87,7 +87,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> UpdateFridgeForModel(Guid fridgeModelId, Guid fridgeId,
-                                                              [FromBody] FridgeForUpdateDTO fridge)
+                                                             [FromBody] FridgeForUpdateDTO fridge)
         {
             var fridgeEntity = HttpContext.Items["fridge"] as Fridge;
 

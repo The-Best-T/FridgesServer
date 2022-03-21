@@ -55,7 +55,7 @@ namespace Server.Controllers
 
             var fridgeModelToReturn = _mapper.Map<FridgeModelDTO>(fridgeModelEntity);
 
-            return CreatedAtRoute("GetFridgeModelById", new { id = fridgeModelToReturn.Id },
+            return CreatedAtRoute("GetFridgeModelById", new { fridgeModelId = fridgeModelToReturn.Id },
                                   fridgeModelToReturn);
         }
 
@@ -75,7 +75,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public async Task<IActionResult> UpdateFridgeModel(Guid fridgeModelId,
-                                                           [FromBody] FridgeModelForUpdateDTO fridgeModel)
+                                                          [FromBody] FridgeModelForUpdateDTO fridgeModel)
         {
             var fridgeModelEntity = HttpContext.Items["fridgeModel"] as FridgeModel;
 

@@ -18,7 +18,7 @@ namespace Server.ActionFilters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
-            var id = (Guid)context.ActionArguments["id"];
+            var id = (Guid)context.ActionArguments["productId"];
             var product = await _repository.Product.GetProductAsync(id, trackChanges);
 
             if (product == null)

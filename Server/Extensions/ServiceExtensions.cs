@@ -17,7 +17,7 @@ namespace Server.Extensions
             services.AddScoped<ValidateProductExistsAttribute>();
             services.AddScoped<ValidateFridgeModelExistsAttribute>();
             services.AddScoped<ValidateFridgeExistsAttribute>();
-
+            services.AddScoped<ValidateFridgeProductExistsAttribute>();
         }
         public static void ConfigureRepositoryManager(this IServiceCollection services)
         {

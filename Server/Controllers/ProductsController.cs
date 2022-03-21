@@ -34,9 +34,9 @@ namespace Server.Controllers
             return Ok(productsDTO);
         }
 
-        [HttpGet("{id}", Name = "GetProductById")]
+        [HttpGet("{productId}", Name = "GetProductById")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public IActionResult GetProduct(Guid id)
+        public IActionResult GetProduct(Guid productId)
         {
             var product = HttpContext.Items["product"] as Product;
 
@@ -56,13 +56,13 @@ namespace Server.Controllers
 
             var productToReturn = _mapper.Map<ProductDTO>(productEntity);
 
-            return CreatedAtRoute("GetProductById", new { id = productToReturn.Id },
+            return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id },
                                     productToReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{productId}")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid productId)
         {
             var product = HttpContext.Items["product"] as Product;
 
@@ -72,10 +72,10 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{productId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductForUpdateDTO product)
+        public async Task<IActionResult> UpdateProduct(Guid productId, [FromBody] ProductForUpdateDTO product)
         {
             var productEntity = HttpContext.Items["product"] as Product;
 
