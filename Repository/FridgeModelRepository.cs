@@ -40,7 +40,7 @@ namespace Repository
         public async Task<FridgeModel> GetFridgeModelAsync(Guid id, bool trackChanges)
         {
             return await FindByCondition(fm => fm.Id.Equals(id), trackChanges)
-                        .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
     }
 }

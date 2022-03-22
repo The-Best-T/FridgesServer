@@ -29,7 +29,7 @@ namespace Repository
         public async Task<Fridge> GetFridgeForModelAsync(Guid fridgeModelId, Guid id, bool trackChanges)
         {
             return await FindByCondition(f => f.ModelId.Equals(fridgeModelId) && f.Id.Equals(id), trackChanges)
-                        .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<Fridge>> GetFridgesForModelAsync(Guid fridgeModelId, FridgeParameters parameters, bool trackChanges)
@@ -40,7 +40,8 @@ namespace Repository
                 .Take(parameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(f => f.ModelId.Equals(fridgeModelId), trackChanges: false).CountAsync();
+            var count = await FindByCondition(f => f.ModelId.Equals(fridgeModelId), trackChanges: false)
+                .CountAsync();
 
             return new PagedList<Fridge>(fridges, count, parameters.PageNumber, parameters.PageSize);
         }

@@ -41,7 +41,7 @@ namespace Repository
         public async Task<Product> GetProductAsync(Guid id, bool trackChanges)
         {
             return await FindByCondition(p => p.Id.Equals(id), trackChanges)
-                        .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
     }
 }

@@ -30,7 +30,8 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
-            var products = await _repository.Product.GetAllProductsAsync(parameters, trackChanges: false);
+            var products = await _repository.Product
+                .GetAllProductsAsync(parameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(products.MetaData));
 
@@ -80,7 +81,8 @@ namespace Server.Controllers
         [HttpPut("{productId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public async Task<IActionResult> UpdateProduct(Guid productId, [FromBody] ProductForUpdateDTO product)
+        public async Task<IActionResult> UpdateProduct(Guid productId, 
+            [FromBody] ProductForUpdateDTO product)
         {
             var productEntity = HttpContext.Items["product"] as Product;
 
