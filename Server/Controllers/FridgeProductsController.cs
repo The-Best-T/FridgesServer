@@ -2,7 +2,9 @@
 using Contracts;
 using Entities.DTO.FridgeProduct;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using Server.ActionFilters;
 using System;
@@ -26,13 +28,15 @@ namespace Server.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
-        public async Task<IActionResult> GetProductsForFridge(Guid fridgeModelId, Guid fridgeId)
+        public async Task<IActionResult> GetProductsForFridge(Guid fridgeModelId, Guid fridgeId,
+            [FromQuery] FridgeProductParameters parameters)
         {
             var fridgeProducts = await _repository.FridgeProduct
-                                                  .GetProductsForFridgeAsync(fridgeId, trakChanges: true);
+                .GetProductsForFridgeAsync(fridgeId, parameters, trakChanges: true);
+
+            HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridgeProducts.MetaData));
 
             var FridgeProductsDTO = _mapper.Map<IEnumerable<FridgeProductDTO>>(fridgeProducts);
-
             return Ok(FridgeProductsDTO);
         }
 
@@ -50,9 +54,10 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> AddProductInFridge(Guid fridgeModelId, Guid fridgeId,
-                                                           [FromBody] FridgeProductForCreationDTO fridgeProduct)
+            [FromBody] FridgeProductForCreationDTO fridgeProduct)
         {
-            var product = await _repository.Product.GetProductAsync(fridgeProduct.ProductId, trackChanges: false);
+            var product = await _repository.Product
+                .GetProductAsync(fridgeProduct.ProductId, trackChanges: false);
             if (product == null)
             {
                 _logger.LogInfo($"Product with id: {fridgeProduct.ProductId} doesn't exist in the database.");
@@ -81,9 +86,8 @@ namespace Server.Controllers
         [HttpDelete("{productId}")]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
         public async Task<IActionResult> DeleteProductFromFridge(Guid fridgeModelId, Guid fridgeId,
-                                                                 Guid productId)
+            Guid productId)
         {
-
             var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 
             _repository.FridgeProduct.DeleteProductFromFridge(fridgeProduct);
@@ -95,8 +99,8 @@ namespace Server.Controllers
         [HttpPut("{productId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
-        public async Task<IActionResult> UpdateProductForFridge(Guid fridgeModelId, Guid fridgeId, Guid productId,
-                                                               [FromBody] FridgeProductForUpdateDTO fridgeProduct)
+        public async Task<IActionResult> UpdateProductForFridge(Guid fridgeModelId, Guid fridgeId,
+            Guid productId, [FromBody] FridgeProductForUpdateDTO fridgeProduct)
         {
             var fridgeProductEntity = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 

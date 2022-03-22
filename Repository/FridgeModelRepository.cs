@@ -1,9 +1,9 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 namespace Repository
@@ -25,17 +25,22 @@ namespace Repository
             Delete(fridgeModel);
         }
 
-        public async Task<IEnumerable<FridgeModel>> GetFridgeModelsAsync(bool trackChanges)
+        public async Task<PagedList<FridgeModel>> GetFridgeModelsAsync(FridgeModelParameters parameters, bool trackChanges)
         {
-            return await FindAll(trackChanges)
-                        .OrderBy(fm => fm.Name)
-                        .ToListAsync();
+            var fridgeModels = await FindAll(trackChanges)
+                .OrderBy(fm => fm.Name)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
+            var count = await FindAll(trackChanges:false).CountAsync();
+
+            return new PagedList<FridgeModel>(fridgeModels, count, parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<FridgeModel> GetFridgeModelAsync(Guid id, bool trackChanges)
         {
             return await FindByCondition(fm => fm.Id.Equals(id), trackChanges)
-                        .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
     }
 }
