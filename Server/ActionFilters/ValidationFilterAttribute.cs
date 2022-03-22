@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using NLog;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 namespace Server.ActionFilters
 {
     public class ValidationFilterAttribute : IActionFilter
@@ -16,7 +16,7 @@ namespace Server.ActionFilters
             var action = context.RouteData.Values["action"];
             var controller = context.RouteData.Values["controller"];
             var param = context.ActionArguments
-                               .SingleOrDefault(x => x.Value.ToString().Contains("DTO")).Value;
+                .SingleOrDefault(x => x.Value.ToString().Contains("DTO")).Value;
             if (param == null)
             {
                 _logger.LogError($"Object sent from client is null. Controller: {controller},action: { action}");
@@ -29,8 +29,8 @@ namespace Server.ActionFilters
                 context.Result = new UnprocessableEntityObjectResult(context.ModelState);
             }
         }
-        public void OnActionExecuted(ActionExecutedContext context) 
-        { 
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
         }
 
     }

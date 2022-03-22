@@ -2,7 +2,9 @@
 using Contracts;
 using Entities.DTO.Fridge;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using Server.ActionFilters;
 using System;
@@ -36,10 +38,13 @@ namespace Server.Controllers
 
         [HttpGet]
         [ServiceFilter((typeof(ValidateFridgeModelExistsAttribute)))]
-        public async Task<IActionResult> GetFridgesForModel(Guid fridgeModelId)
+        public async Task<IActionResult> GetFridgesForModel(Guid fridgeModelId,
+            [FromQuery] FridgeParameters parameters)
         {
             var fridges = await _repository.Fridge
-                                           .GetFridgesForModelAsync(fridgeModelId, trackChanges: true);
+                .GetFridgesForModelAsync(fridgeModelId, parameters, trackChanges: true);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridges.MetaData));
 
             var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
 
@@ -50,7 +55,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter((typeof(ValidateFridgeModelExistsAttribute)))]
         public async Task<IActionResult> CreateFridgeForModel(Guid fridgeModelId,
-                                                             [FromBody] FridgeForCreationDTO fridge)
+            [FromBody] FridgeForCreationDTO fridge)
         {
             var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
@@ -87,7 +92,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> UpdateFridgeForModel(Guid fridgeModelId, Guid fridgeId,
-                                                             [FromBody] FridgeForUpdateDTO fridge)
+            [FromBody] FridgeForUpdateDTO fridge)
         {
             var fridgeEntity = HttpContext.Items["fridge"] as Fridge;
 

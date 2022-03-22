@@ -62,7 +62,7 @@ namespace Server.Controllers
             var productToReturn = _mapper.Map<ProductDTO>(productEntity);
 
             return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id },
-                                    productToReturn);
+                productToReturn);
         }
 
         [HttpDelete("{productId}")]

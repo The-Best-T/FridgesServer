@@ -32,7 +32,7 @@ namespace Repository
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToListAsync();
-            var count = await FindAll(trackChanges).CountAsync();
+            var count = await FindAll(trackChanges:false).CountAsync();
 
             return new PagedList<FridgeModel>(fridgeModels, count, parameters.PageNumber, parameters.PageSize);
         }
