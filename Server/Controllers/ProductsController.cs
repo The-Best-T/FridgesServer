@@ -2,7 +2,9 @@
 using Contracts;
 using Entities.DTO.Product;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using Server.ActionFilters;
 using System;
@@ -17,6 +19,7 @@ namespace Server.Controllers
         private readonly ILoggerManager _logger;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+
         public ProductsController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
         {
             _logger = logger;
@@ -25,9 +28,11 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
-            var products = await _repository.Product.GetAllProductsAsync(trackChanges: false);
+            var products = await _repository.Product.GetAllProductsAsync(parameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(products.MetaData));
 
             var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
 

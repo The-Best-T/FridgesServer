@@ -83,7 +83,6 @@ namespace Server.Controllers
         public async Task<IActionResult> DeleteProductFromFridge(Guid fridgeModelId, Guid fridgeId,
                                                                  Guid productId)
         {
-
             var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 
             _repository.FridgeProduct.DeleteProductFromFridge(fridgeProduct);
