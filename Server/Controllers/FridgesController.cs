@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace Server.Controllers
 {
-    [Route("api/models/{fridgeModelId}/fridges")]
+    [Route("api/fridges")]
     [ApiController]
     public class FridgesController : ControllerBase
     {
@@ -26,23 +26,20 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{fridgeId}", Name = "GetFridgeForModel")]
+        [HttpGet("{fridgeId}", Name = "GetFridgeById")]
         [ServiceFilter((typeof(ValidateFridgeExistsAttribute)))]
-        public IActionResult GetFridgeForModel(Guid fridgeModelId, Guid fridgeId)
+        public IActionResult GetFridge(Guid fridgeId)
         {
-            var fridge = HttpContext.Items["fridge"] as FridgeModel;
+            var fridge = HttpContext.Items["fridge"] as Fridge;
 
             var fridgeDTO = _mapper.Map<FridgeDTO>(fridge);
             return Ok(fridgeDTO);
         }
 
         [HttpGet]
-        [ServiceFilter((typeof(ValidateFridgeModelExistsAttribute)))]
-        public async Task<IActionResult> GetFridgesForModel(Guid fridgeModelId,
-            [FromQuery] FridgeParameters parameters)
+        public async Task<IActionResult> GetFridges([FromQuery] FridgeParameters parameters)
         {
-            var fridges = await _repository.Fridge
-                .GetFridgesForModelAsync(fridgeModelId, parameters, trackChanges: true);
+            var fridges = await _repository.Fridge.GetFridgesAsync(parameters, trackChanges: true);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridges.MetaData));
 
@@ -53,24 +50,25 @@ namespace Server.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [ServiceFilter((typeof(ValidateFridgeModelExistsAttribute)))]
-        public async Task<IActionResult> CreateFridgeForModel(Guid fridgeModelId,
-            [FromBody] FridgeForCreationDTO fridge)
+        public async Task<IActionResult> CreateFridge([FromBody] FridgeForCreationDTO fridge)
         {
-            var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
-
+            var fridgeModel = await _repository.FridgeModel
+                .GetFridgeModelAsync(fridge.ModelId, trackChanges: false);
+            if (fridgeModel == null)
+            {
+                _logger.LogInfo($"FridgeModel with id {fridge.ModelId} doesn't exist in database.");
+                return NotFound();
+            }
             var fridgeEntity = _mapper.Map<Fridge>(fridge);
 
-            _repository.Fridge.CreateFridgeForModel(fridgeModelId, fridgeEntity);
+            _repository.Fridge.CreateFridge(fridgeEntity);
             await _repository.SaveAsync();
 
+            fridgeEntity.Model = fridgeModel;
             var fridgeToReturn = _mapper.Map<FridgeDTO>(fridgeEntity);
-            fridgeToReturn.ModelName = fridgeModel.Name;
-
-            return CreatedAtRoute("GetFridgeForModel",
+            return CreatedAtRoute("GetFridgeById",
                 new
                 {
-                    fridgeModelId,
                     fridgeId = fridgeToReturn.Id
                 },
                 fridgeToReturn);
@@ -78,7 +76,7 @@ namespace Server.Controllers
 
         [HttpDelete("{fridgeId}")]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
-        public async Task<IActionResult> DeleteFridgeForModel(Guid fridgeModelId, Guid fridgeId)
+        public async Task<IActionResult> DeleteFridge(Guid fridgeId)
         {
             var fridge = HttpContext.Items["fridge"] as Fridge;
 
@@ -91,7 +89,7 @@ namespace Server.Controllers
         [HttpPut("{fridgeId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
-        public async Task<IActionResult> UpdateFridgeForModel(Guid fridgeModelId, Guid fridgeId,
+        public async Task<IActionResult> UpdateFridge(Guid fridgeId,
             [FromBody] FridgeForUpdateDTO fridge)
         {
             var fridgeEntity = HttpContext.Items["fridge"] as Fridge;

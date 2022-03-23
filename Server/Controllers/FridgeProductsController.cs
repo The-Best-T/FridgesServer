@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace Server.Controllers
 {
-    [Route("api/models/{fridgeModelId}/fridges/{fridgeId}/products")]
+    [Route("api/fridges/{fridgeId}/products")]
     [ApiController]
     public class FridgeProductsController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace Server.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
-        public async Task<IActionResult> GetProductsForFridge(Guid fridgeModelId, Guid fridgeId,
+        public async Task<IActionResult> GetProductsForFridge(Guid fridgeId,
             [FromQuery] FridgeProductParameters parameters)
         {
             var fridgeProducts = await _repository.FridgeProduct
@@ -42,7 +42,7 @@ namespace Server.Controllers
 
         [HttpGet("{productId}", Name = "GetProductForFridge")]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
-        public IActionResult GetProductForFridge(Guid fridgeModelId, Guid fridgeId, Guid productId)
+        public IActionResult GetProductForFridge(Guid fridgeId, Guid productId)
         {
             var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 
@@ -53,7 +53,7 @@ namespace Server.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
-        public async Task<IActionResult> AddProductInFridge(Guid fridgeModelId, Guid fridgeId,
+        public async Task<IActionResult> AddProductInFridge(Guid fridgeId,
             [FromBody] FridgeProductForCreationDTO fridgeProduct)
         {
             var product = await _repository.Product
@@ -76,7 +76,6 @@ namespace Server.Controllers
                 "GetProductForFridge",
                  new
                  {
-                     fridgeModelId,
                      fridgeId,
                      productId = fridgeProductToReturn.ProductId
                  },
@@ -85,8 +84,7 @@ namespace Server.Controllers
 
         [HttpDelete("{productId}")]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
-        public async Task<IActionResult> DeleteProductFromFridge(Guid fridgeModelId, Guid fridgeId,
-            Guid productId)
+        public async Task<IActionResult> DeleteProductFromFridge(Guid fridgeId, Guid productId)
         {
             var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 
@@ -99,8 +97,8 @@ namespace Server.Controllers
         [HttpPut("{productId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
-        public async Task<IActionResult> UpdateProductForFridge(Guid fridgeModelId, Guid fridgeId,
-            Guid productId, [FromBody] FridgeProductForUpdateDTO fridgeProduct)
+        public async Task<IActionResult> UpdateProductForFridge(Guid fridgeId, Guid productId,
+            [FromBody] FridgeProductForUpdateDTO fridgeProduct)
         {
             var fridgeProductEntity = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 

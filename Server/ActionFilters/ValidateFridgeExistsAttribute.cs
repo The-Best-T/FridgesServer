@@ -17,21 +17,15 @@ namespace Server.ActionFilters
         }
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
-
-            var fridgeModelId = (Guid)context.ActionArguments["fridgeModelId"];
-            var fridgeModel = await _repository.FridgeModel.GetFridgeModelAsync(fridgeModelId, trackChanges: false);
-            if (fridgeModel == null)
-            {
-                _logger.LogInfo($"FridgeModel with id: {fridgeModelId} doesn't exist in the database.");
-                context.Result = new NotFoundResult();
-            }
+            var method=context.HttpContext.Request.Method;
+            var trackChanges=method.Equals("PUT") || method.Equals("GET");
 
             var fridgeId = (Guid)context.ActionArguments["fridgeId"];
-            var fridge = await _repository.Fridge.GetFridgeForModelAsync(fridgeModelId, fridgeId, trackChanges);
+            var fridge = await _repository.Fridge.GetFridgeAsync(fridgeId, trackChanges);
+
             if (fridge == null)
             {
-                _logger.LogInfo($"Fridge with id: {fridgeId} and modelId {fridgeModelId} doesn't exist in the database.");
+                _logger.LogInfo($"Fridge with id: {fridgeId} doesn't exist in the database.");
                 context.Result = new NotFoundResult();
             }
             else

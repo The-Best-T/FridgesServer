@@ -15,9 +15,8 @@ namespace Repository
         {
         }
 
-        public void CreateFridgeForModel(Guid fridgeModelId, Fridge fridge)
+        public void CreateFridge(Fridge fridge)
         {
-            fridge.ModelId = fridgeModelId;
             Create(fridge);
         }
 
@@ -26,21 +25,21 @@ namespace Repository
             Delete(fridge);
         }
 
-        public async Task<Fridge> GetFridgeForModelAsync(Guid fridgeModelId, Guid id, bool trackChanges)
+        public async Task<Fridge> GetFridgeAsync(Guid id, bool trackChanges)
         {
-            return await FindByCondition(f => f.ModelId.Equals(fridgeModelId) && f.Id.Equals(id), trackChanges)
+            return await FindByCondition(f => f.Id.Equals(id), trackChanges)
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<PagedList<Fridge>> GetFridgesForModelAsync(Guid fridgeModelId, FridgeParameters parameters, bool trackChanges)
+        public async Task<PagedList<Fridge>> GetFridgesAsync(FridgeParameters parameters, bool trackChanges)
         {
-            var fridges = await FindByCondition(f => f.ModelId.Equals(fridgeModelId), trackChanges)
+            var fridges = await FindAll(trackChanges)
                 .OrderBy(f => f.Name)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(f => f.ModelId.Equals(fridgeModelId), trackChanges: false)
+            var count = await FindAll(trackChanges: false)
                 .CountAsync();
 
             return new PagedList<Fridge>(fridges, count, parameters.PageNumber, parameters.PageSize);
