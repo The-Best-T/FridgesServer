@@ -9,7 +9,7 @@ namespace Server.Extensions
     public static class ExceptionMiddlewareExtensions
     {
         public static void ConfigureExceptionHandler(this IApplicationBuilder app,
-                                                     ILoggerManager logger)
+            ILoggerManager logger)
         {
             app.UseExceptionHandler(appError =>
             {

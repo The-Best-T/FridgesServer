@@ -81,7 +81,7 @@ namespace Server.Controllers
         [HttpPut("{productId}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public async Task<IActionResult> UpdateProduct(Guid productId, 
+        public async Task<IActionResult> UpdateProduct(Guid productId,
             [FromBody] ProductForUpdateDTO product)
         {
             var productEntity = HttpContext.Items["product"] as Product;
