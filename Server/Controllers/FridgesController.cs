@@ -28,9 +28,9 @@ namespace Server.Controllers
 
         [HttpGet("{fridgeId}", Name = "GetFridgeById")]
         [ServiceFilter((typeof(ValidateFridgeExistsAttribute)))]
-        public IActionResult GetFridgeForModel(Guid fridgeId)
+        public IActionResult GetFridge(Guid fridgeId)
         {
-            var fridge = HttpContext.Items["fridge"] as FridgeModel;
+            var fridge = HttpContext.Items["fridge"] as Fridge;
 
             var fridgeDTO = _mapper.Map<FridgeDTO>(fridge);
             return Ok(fridgeDTO);
@@ -60,13 +60,12 @@ namespace Server.Controllers
                 return NotFound();
             }
             var fridgeEntity = _mapper.Map<Fridge>(fridge);
-            fridgeEntity.Model = fridgeModel;
 
             _repository.Fridge.CreateFridge(fridgeEntity);
             await _repository.SaveAsync();
 
+            fridgeEntity.Model = fridgeModel;
             var fridgeToReturn = _mapper.Map<FridgeDTO>(fridgeEntity);
-
             return CreatedAtRoute("GetFridgeById",
                 new
                 {

@@ -18,7 +18,8 @@ namespace Server.ActionFilters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
+            var method = context.HttpContext.Request.Method;
+            var trackChanges = method.Equals("PUT") || method.Equals("GET");
 
             var fridgeId = (Guid)context.ActionArguments["fridgeId"];
             var fridge = await _repository.Fridge.GetFridgeAsync(fridgeId, trackChanges: false);
