@@ -26,16 +26,11 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetFridgeModels([FromQuery] FridgeModelParameters parameters)
+        [HttpOptions]
+        public IActionResult GetFridgeModelsOptions()
         {
-            var fridgeModels = await _repository.FridgeModel
-                .GetFridgeModelsAsync(parameters, trackChanges: false);
-
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridgeModels.MetaData));
-
-            var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
-            return Ok(fridgeModelsDTO);
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
 
         [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
@@ -47,6 +42,18 @@ namespace Server.Controllers
             var fridgeModelDTO = _mapper.Map<FridgeModelDTO>(fridgeModel);
             return Ok(fridgeModelDTO);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFridgeModels([FromQuery] FridgeModelParameters parameters)
+        {
+            var fridgeModels = await _repository.FridgeModel
+                .GetFridgeModelsAsync(parameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridgeModels.MetaData));
+
+            var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
+            return Ok(fridgeModelsDTO);
         }
 
         [HttpPost]
