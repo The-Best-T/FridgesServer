@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using Entities.ValidateAttributes;
+using System;
 namespace Entities.DTO.FridgeProduct
 {
     public class FridgeProductForCreationDTO : FridgeProductForManipulationDTO
     {
-        [Required(ErrorMessage ="ProductId is Required field.")]
+        [NotEmptyGuid]
         public Guid ProductId { get; set; }
     }
 }

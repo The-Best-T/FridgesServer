@@ -6,9 +6,7 @@ namespace AutoMapper
     {
         public FridgeProfile()
         {
-            CreateMap<Fridge, FridgeDTO>()
-                .ForMember(f => f.ModelName,
-                           opt => opt.MapFrom(x => x.Model.Name));
+            CreateMap<Fridge, FridgeDTO>();
             CreateMap<FridgeForCreationDTO, Fridge>();
             CreateMap<FridgeForUpdateDTO, Fridge>();
         }
