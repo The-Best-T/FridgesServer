@@ -44,6 +44,7 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> GetProductsForFridge(Guid fridgeId,
             [FromQuery] FridgeProductParameters parameters)

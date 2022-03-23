@@ -35,6 +35,7 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
             var products = await _repository.Product

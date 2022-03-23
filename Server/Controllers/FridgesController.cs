@@ -44,6 +44,7 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         public async Task<IActionResult> GetFridges([FromQuery] FridgeParameters parameters)
         {
             var fridges = await _repository.Fridge.GetFridgesAsync(parameters, trackChanges: true);
