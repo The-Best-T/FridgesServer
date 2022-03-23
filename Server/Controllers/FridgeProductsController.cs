@@ -26,6 +26,23 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
+        [HttpOptions]
+        public IActionResult GetFridgeProductsOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
+        }
+
+        [HttpGet("{productId}", Name = "GetProductForFridge")]
+        [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
+        public IActionResult GetProductForFridge(Guid fridgeId, Guid productId)
+        {
+            var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
+
+            var fridgeProductDTO = _mapper.Map<FridgeProductDTO>(fridgeProduct);
+            return Ok(fridgeProductDTO);
+        }
+
         [HttpGet]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> GetProductsForFridge(Guid fridgeId,
@@ -38,16 +55,6 @@ namespace Server.Controllers
 
             var FridgeProductsDTO = _mapper.Map<IEnumerable<FridgeProductDTO>>(fridgeProducts);
             return Ok(FridgeProductsDTO);
-        }
-
-        [HttpGet("{productId}", Name = "GetProductForFridge")]
-        [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
-        public IActionResult GetProductForFridge(Guid fridgeId, Guid productId)
-        {
-            var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
-
-            var fridgeProductDTO = _mapper.Map<FridgeProductDTO>(fridgeProduct);
-            return Ok(fridgeProductDTO);
         }
 
         [HttpPost]

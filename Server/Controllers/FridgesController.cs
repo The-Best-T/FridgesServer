@@ -26,6 +26,13 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
+        [HttpOptions]
+        public IActionResult GetFridgesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
+        }
+
         [HttpGet("{fridgeId}", Name = "GetFridgeById")]
         [ServiceFilter((typeof(ValidateFridgeExistsAttribute)))]
         public IActionResult GetFridge(Guid fridgeId)

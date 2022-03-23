@@ -27,6 +27,13 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
+        [HttpOptions]
+        public IActionResult GetProductsOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
