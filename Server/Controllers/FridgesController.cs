@@ -54,7 +54,7 @@ namespace Server.Controllers
         {
             var fridgeModel = await _repository.FridgeModel
                 .GetFridgeModelAsync(fridge.ModelId, trackChanges: false);
-            if (fridgeModel==null)
+            if (fridgeModel == null)
             {
                 _logger.LogInfo($"FridgeModel with id {fridge.ModelId} doesn't exist in database.");
                 return NotFound();
