@@ -23,7 +23,7 @@ namespace Server.Extensions
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit= 3,
+                    Limit= 5,
                     Period = "1m"
                 }
             };
