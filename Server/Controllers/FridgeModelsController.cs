@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace Server.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/models")]
     [ApiController]
     public class FridgeModelsController : ControllerBase
