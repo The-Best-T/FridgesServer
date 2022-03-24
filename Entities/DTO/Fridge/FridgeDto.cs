@@ -2,7 +2,7 @@
 using Entities.DTO.FridgeModel;
 namespace Entities.DTO.Fridge
 {
-    public class FridgeDTO
+    public class FridgeDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
