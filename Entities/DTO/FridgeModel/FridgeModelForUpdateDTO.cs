@@ -1,6 +1,6 @@
-﻿namespace Entities.DTO.FridgeModel
+﻿namespace Entities.Dto.FridgeModel
 {
-    public class FridgeModelForUpdateDTO : FridgeModelForManipulationDTO
+    public class FridgeModelForUpdateDto : FridgeModelForManipulationDto
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.DTO.FridgeProduct;
+using Entities.Dto.FridgeProduct;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +40,8 @@ namespace Server.Controllers
         {
             var fridgeProduct = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 
-            var fridgeProductDTO = _mapper.Map<FridgeProductDTO>(fridgeProduct);
-            return Ok(fridgeProductDTO);
+            var fridgeProductDto = _mapper.Map<FridgeProductDto>(fridgeProduct);
+            return Ok(fridgeProductDto);
         }
 
         [HttpGet]
@@ -55,15 +55,15 @@ namespace Server.Controllers
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridgeProducts.MetaData));
 
-            var FridgeProductsDTO = _mapper.Map<IEnumerable<FridgeProductDTO>>(fridgeProducts);
-            return Ok(FridgeProductsDTO);
+            var FridgeProductsDto = _mapper.Map<IEnumerable<FridgeProductDto>>(fridgeProducts);
+            return Ok(FridgeProductsDto);
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> AddProductInFridge(Guid fridgeId,
-            [FromBody] FridgeProductForCreationDTO fridgeProduct)
+            [FromBody] FridgeProductForCreationDto fridgeProduct)
         {
             var product = await _repository.Product
                 .GetProductAsync(fridgeProduct.ProductId, trackChanges: false);
@@ -78,7 +78,7 @@ namespace Server.Controllers
             _repository.FridgeProduct.AddProductInFridge(fridgeId, fridgeProductEntity);
             await _repository.SaveAsync();
 
-            var fridgeProductToReturn = _mapper.Map<FridgeProductDTO>(fridgeProductEntity);
+            var fridgeProductToReturn = _mapper.Map<FridgeProductDto>(fridgeProductEntity);
             fridgeProductToReturn.ProductName = product.Name;
 
             return CreatedAtRoute(
@@ -107,7 +107,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
         public async Task<IActionResult> UpdateProductForFridge(Guid fridgeId, Guid productId,
-            [FromBody] FridgeProductForUpdateDTO fridgeProduct)
+            [FromBody] FridgeProductForUpdateDto fridgeProduct)
         {
             var fridgeProductEntity = HttpContext.Items["fridgeProduct"] as FridgeProduct;
 

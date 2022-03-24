@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Entities.DTO.Product
+namespace Entities.Dto.Product
 {
-    public abstract class ProductForManipulationDTO
+    public abstract class ProductForManipulationDto
     {
         [Required(ErrorMessage = "Product name is a required field.")]
         [MaxLength(30, ErrorMessage = "Maximum length for the Product name is 30 characters.")]

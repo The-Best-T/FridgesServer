@@ -1,6 +1,6 @@
-﻿namespace Entities.DTO.Product
+﻿namespace Entities.Dto.Product
 {
-    public class ProductForUpdateDTO : ProductForManipulationDTO
+    public class ProductForUpdateDto : ProductForManipulationDto
     {
     }
 }

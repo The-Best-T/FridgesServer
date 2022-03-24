@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Entities.DTO.Product
+namespace Entities.Dto.Product
 {
-    public class ProductDTO
+    public class ProductDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
