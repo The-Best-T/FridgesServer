@@ -25,15 +25,16 @@ namespace Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
             services.ConfigureCors();
             services.ConfigureIISIntegration();
+
+            services.AddAutoMapper(typeof(Startup));
+            services.ConfigureSqlContext(Configuration);
             services.ConfigureLoggerService();
             services.ConfigureRepositoryManager();
-            services.ConfigureResponseCaching();
-            services.ConfigureVersioning();
-            services.ConfigureSqlContext(Configuration);
             services.ValidationAttributes();
+
+            services.ConfigureVersioning();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -44,12 +45,7 @@ namespace Server
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
-                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile
-                {
-                    Duration = 120
-                });
             }).AddXmlDataContractSerializerFormatters();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
@@ -74,7 +70,6 @@ namespace Server
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
-            app.UseResponseCaching();
 
             app.UseRouting();
 
