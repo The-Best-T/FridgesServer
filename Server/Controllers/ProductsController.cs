@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.DTO.Product;
+using Entities.Dto.Product;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
@@ -45,9 +45,9 @@ namespace Server.Controllers
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(products.MetaData));
 
-            var productsDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
+            var productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
 
-            return Ok(productsDTO);
+            return Ok(productsDto);
         }
 
         [HttpGet("{productId}", Name = "GetProductById")]
@@ -56,21 +56,21 @@ namespace Server.Controllers
         {
             var product = HttpContext.Items["product"] as Product;
 
-            var productDTO = _mapper.Map<ProductDTO>(product);
-            return Ok(productDTO);
+            var productDto = _mapper.Map<ProductDto>(product);
+            return Ok(productDto);
 
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDTO product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto product)
         {
             var productEntity = _mapper.Map<Product>(product);
 
             _repository.Product.CreateProduct(productEntity);
             await _repository.SaveAsync();
 
-            var productToReturn = _mapper.Map<ProductDTO>(productEntity);
+            var productToReturn = _mapper.Map<ProductDto>(productEntity);
 
             return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id },
                 productToReturn);
@@ -92,7 +92,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid productId,
-            [FromBody] ProductForUpdateDTO product)
+            [FromBody] ProductForUpdateDto product)
         {
             var productEntity = HttpContext.Items["product"] as Product;
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Entities.DTO.Fridge
+namespace Entities.Dto.Fridge
 {
-    public abstract class FridgeForManipulationDTO
+    public abstract class FridgeForManipulationDto
     {
         [Required(ErrorMessage = "Fridge name is a required field.")]
         [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
