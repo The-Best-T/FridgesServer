@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -27,6 +28,11 @@ namespace Server
         {
             services.ConfigureCors();
             services.ConfigureIISIntegration();
+
+            services.AddMemoryCache();
+            services.AddOptions();
+            services.ConfigureRateLimitingOptions();
+            services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(Startup));
             services.ConfigureSqlContext(Configuration);
@@ -70,6 +76,8 @@ namespace Server
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
+
+            app.UseIpRateLimiting();
 
             app.UseRouting();
 
