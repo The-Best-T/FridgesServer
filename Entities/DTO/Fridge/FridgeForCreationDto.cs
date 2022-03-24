@@ -1,8 +1,8 @@
 ﻿using Entities.ValidateAttributes;
 using System;
-namespace Entities.DTO.Fridge
+namespace Entities.Dto.Fridge
 {
-    public class FridgeForCreationDTO : FridgeForManipulationDTO
+    public class FridgeForCreationDto : FridgeForManipulationDto
     {
         [NotEmptyGuid]
         public Guid ModelId { get; set; }

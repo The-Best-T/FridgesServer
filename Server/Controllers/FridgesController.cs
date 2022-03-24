@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.DTO.Fridge;
+using Entities.Dto.Fridge;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +40,8 @@ namespace Server.Controllers
         {
             var fridge = HttpContext.Items["fridge"] as Fridge;
 
-            var fridgeDTO = _mapper.Map<FridgeDTO>(fridge);
-            return Ok(fridgeDTO);
+            var FridgeDto = _mapper.Map<FridgeDto>(fridge);
+            return Ok(FridgeDto);
         }
 
         [HttpGet]
@@ -52,14 +52,14 @@ namespace Server.Controllers
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridges.MetaData));
 
-            var fridgeDTO = _mapper.Map<IEnumerable<FridgeDTO>>(fridges);
+            var FridgeDto = _mapper.Map<IEnumerable<FridgeDto>>(fridges);
 
-            return Ok(fridgeDTO);
+            return Ok(FridgeDto);
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateFridge([FromBody] FridgeForCreationDTO fridge)
+        public async Task<IActionResult> CreateFridge([FromBody] FridgeForCreationDto fridge)
         {
             var fridgeModel = await _repository.FridgeModel
                 .GetFridgeModelAsync(fridge.ModelId, trackChanges: false);
@@ -74,7 +74,7 @@ namespace Server.Controllers
             await _repository.SaveAsync();
 
             fridgeEntity.Model = fridgeModel;
-            var fridgeToReturn = _mapper.Map<FridgeDTO>(fridgeEntity);
+            var fridgeToReturn = _mapper.Map<FridgeDto>(fridgeEntity);
             return CreatedAtRoute("GetFridgeById",
                 new
                 {
@@ -99,7 +99,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> UpdateFridge(Guid fridgeId,
-            [FromBody] FridgeForUpdateDTO fridge)
+            [FromBody] FridgeForUpdateDto fridge)
         {
             var fridgeEntity = HttpContext.Items["fridge"] as Fridge;
 

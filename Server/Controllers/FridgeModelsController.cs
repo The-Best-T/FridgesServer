@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.DTO.FridgeModel;
+using Entities.Dto.FridgeModel;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +40,8 @@ namespace Server.Controllers
         {
             var fridgeModel = HttpContext.Items["fridgeModel"] as FridgeModel;
 
-            var fridgeModelDTO = _mapper.Map<FridgeModelDTO>(fridgeModel);
-            return Ok(fridgeModelDTO);
+            var fridgeModelDto = _mapper.Map<FridgeModelDto>(fridgeModel);
+            return Ok(fridgeModelDto);
 
         }
 
@@ -54,20 +54,20 @@ namespace Server.Controllers
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(fridgeModels.MetaData));
 
-            var fridgeModelsDTO = _mapper.Map<IEnumerable<FridgeModelDTO>>(fridgeModels);
-            return Ok(fridgeModelsDTO);
+            var fridgeModelsDto = _mapper.Map<IEnumerable<FridgeModelDto>>(fridgeModels);
+            return Ok(fridgeModelsDto);
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDTO fridgeModel)
+        public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDto fridgeModel)
         {
             var fridgeModelEntity = _mapper.Map<FridgeModel>(fridgeModel);
 
             _repository.FridgeModel.CreateFridgeModel(fridgeModelEntity);
             await _repository.SaveAsync();
 
-            var fridgeModelToReturn = _mapper.Map<FridgeModelDTO>(fridgeModelEntity);
+            var fridgeModelToReturn = _mapper.Map<FridgeModelDto>(fridgeModelEntity);
 
             return CreatedAtRoute("GetFridgeModelById", new { fridgeModelId = fridgeModelToReturn.Id },
                 fridgeModelToReturn);
@@ -89,7 +89,7 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public async Task<IActionResult> UpdateFridgeModel(Guid fridgeModelId,
-            [FromBody] FridgeModelForUpdateDTO fridgeModel)
+            [FromBody] FridgeModelForUpdateDto fridgeModel)
         {
             var fridgeModelEntity = HttpContext.Items["fridgeModel"] as FridgeModel;
 

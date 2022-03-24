@@ -1,12 +1,12 @@
 ﻿using System;
-using Entities.DTO.FridgeModel;
-namespace Entities.DTO.Fridge
+using Entities.Dto.FridgeModel;
+namespace Entities.Dto.Fridge
 {
-    public class FridgeDTO
+    public class FridgeDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string OwnerName { get; set; }
-        public FridgeModelDTO Model { get; set; }
+        public FridgeModelDto Model { get; set; }
     }
 }

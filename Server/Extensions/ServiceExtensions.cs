@@ -9,10 +9,29 @@ using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Repository;
 using Server.ActionFilters;
+using Marvin.Cache.Headers;
 namespace Server.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+        {
+            services.AddHttpCacheHeaders(
+                (expirationOpt) =>
+                {
+                    expirationOpt.MaxAge = 120;
+                    expirationOpt.CacheLocation = CacheLocation.Private;
+                },
+                (validationOpt) =>
+                {
+                    validationOpt.MustRevalidate = true;
+                });
+        }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
         public static void ConfigureVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(opt =>

@@ -16,7 +16,7 @@ namespace Server.ActionFilters
             var action = context.RouteData.Values["action"];
             var controller = context.RouteData.Values["controller"];
             var param = context.ActionArguments
-                .SingleOrDefault(x => x.Value.ToString().Contains("DTO")).Value;
+                .SingleOrDefault(x => x.Value.ToString().Contains("Dto")).Value;
             if (param == null)
             {
                 _logger.LogError($"Object sent from client is null. Controller: {controller},action: { action}");

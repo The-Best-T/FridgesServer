@@ -25,14 +25,16 @@ namespace Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
             services.ConfigureCors();
             services.ConfigureIISIntegration();
-            services.ConfigureLoggerService();
+
+            services.AddAutoMapper(typeof(Startup));
             services.ConfigureSqlContext(Configuration);
+            services.ConfigureLoggerService();
             services.ConfigureRepositoryManager();
-            services.ConfigureVersioning();
             services.ValidationAttributes();
+
+            services.ConfigureVersioning();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -44,7 +46,6 @@ namespace Server
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,

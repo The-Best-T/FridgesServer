@@ -1,14 +1,14 @@
 ﻿using Entities.Models;
-using Entities.DTO.FridgeModel;
+using Entities.Dto.FridgeModel;
 namespace AutoMapper
 {
     public class FridgeModelProfile : Profile
     {
         public FridgeModelProfile()
         {
-            CreateMap<FridgeModel, FridgeModelDTO>();
-            CreateMap<FridgeModelForCreationDTO, FridgeModel>();
-            CreateMap<FridgeModelForUpdateDTO, FridgeModel>();
+            CreateMap<FridgeModel, FridgeModelDto>();
+            CreateMap<FridgeModelForCreationDto, FridgeModel>();
+            CreateMap<FridgeModelForUpdateDto, FridgeModel>();
         }
     }
 }

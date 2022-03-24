@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Entities.DTO.FridgeProduct
+namespace Entities.Dto.FridgeProduct
 {
-    public class FridgeProductDTO
+    public class FridgeProductDto
     {
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
