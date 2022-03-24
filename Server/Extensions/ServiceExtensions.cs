@@ -13,6 +13,10 @@ namespace Server.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureResponseCaching(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
         public static void ConfigureVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(opt =>

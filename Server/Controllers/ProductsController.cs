@@ -15,6 +15,7 @@ namespace Server.Controllers
     [ApiVersion("1.0")]
     [Route("api/products")]
     [ApiController]
+    [ResponseCache(CacheProfileName = "120SecondsDuration")]
     public class ProductsController : ControllerBase
     {
         private readonly ILoggerManager _logger;

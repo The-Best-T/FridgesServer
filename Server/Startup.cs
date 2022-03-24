@@ -29,9 +29,10 @@ namespace Server
             services.ConfigureCors();
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
-            services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
+            services.ConfigureResponseCaching();
             services.ConfigureVersioning();
+            services.ConfigureSqlContext(Configuration);
             services.ValidationAttributes();
 
             services.Configure<ApiBehaviorOptions>(options =>
@@ -43,6 +44,10 @@ namespace Server
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
+                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile
+                {
+                    Duration = 120
+                });
             }).AddXmlDataContractSerializerFormatters();
 
         }
@@ -69,6 +74,7 @@ namespace Server
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
+            app.UseResponseCaching();
 
             app.UseRouting();
 
