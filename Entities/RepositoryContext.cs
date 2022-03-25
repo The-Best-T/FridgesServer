@@ -53,6 +53,7 @@ namespace Entities
             builder.ApplyConfiguration(new FridgeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new FridgeProductConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }
