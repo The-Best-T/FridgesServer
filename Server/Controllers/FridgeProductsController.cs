@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Dto.FridgeProduct;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NLog;
@@ -13,8 +14,9 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/fridges/{fridgeId}/products")]
+    [Route("api/fridges/{fridgeId}/products"),Authorize]
     [ApiController]
+    
     public class FridgeProductsController : ControllerBase
     {
         private readonly ILoggerManager _logger;
@@ -60,6 +62,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> AddProductInFridge(Guid fridgeId,
@@ -92,6 +95,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{productId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
         public async Task<IActionResult> DeleteProductFromFridge(Guid fridgeId, Guid productId)
         {
@@ -104,6 +108,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{productId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
         public async Task<IActionResult> UpdateProductForFridge(Guid fridgeId, Guid productId,

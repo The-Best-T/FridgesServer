@@ -29,18 +29,23 @@ namespace Server
             services.ConfigureCors();
             services.ConfigureIISIntegration();
 
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+
             services.AddMemoryCache();
             services.AddOptions();
             services.ConfigureRateLimitingOptions();
             services.AddHttpContextAccessor();
 
+            services.ConfigureVersioning();
+
             services.AddAutoMapper(typeof(Startup));
             services.ConfigureSqlContext(Configuration);
             services.ConfigureLoggerService();
             services.ConfigureRepositoryManager();
+            services.CoonfigureAuthenticationManager();
             services.ValidationAttributes();
-
-            services.ConfigureVersioning();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -81,6 +86,7 @@ namespace Server
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

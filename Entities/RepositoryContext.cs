@@ -1,9 +1,10 @@
 ﻿using Entities.Configuration;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Entities
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
         public DbSet<Fridge> Fridges { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -19,6 +20,7 @@ namespace Entities
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
 
             builder
                 .Entity<Fridge>()
@@ -51,7 +53,7 @@ namespace Entities
             builder.ApplyConfiguration(new FridgeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new FridgeProductConfiguration());
-            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }
