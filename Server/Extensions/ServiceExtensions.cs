@@ -102,6 +102,10 @@ namespace Server.Extensions
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
+        public static void CoonfigureAuthenticationManager(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+        }
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<RepositoryContext>(opts =>

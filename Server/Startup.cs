@@ -44,6 +44,7 @@ namespace Server
             services.ConfigureSqlContext(Configuration);
             services.ConfigureLoggerService();
             services.ConfigureRepositoryManager();
+            services.CoonfigureAuthenticationManager();
             services.ValidationAttributes();
 
             services.Configure<ApiBehaviorOptions>(options =>

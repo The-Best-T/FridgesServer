@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Dto.FridgeModel;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NLog;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/models")]
+    [Route("api/models"),Authorize]
     [ApiController]
     public class FridgeModelsController : ControllerBase
     {
@@ -59,6 +60,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDto fridgeModel)
         {
@@ -74,6 +76,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{fridgeModelId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public async Task<IActionResult> DeleteFridgeModel(Guid fridgeModelId)
         {
@@ -86,6 +89,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{fridgeModelId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public async Task<IActionResult> UpdateFridgeModel(Guid fridgeModelId,

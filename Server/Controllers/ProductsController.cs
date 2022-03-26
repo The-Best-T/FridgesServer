@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Dto.Product;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NLog;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/products")]
+    [Route("api/products"),Authorize]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -61,6 +62,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto product)
         {
@@ -76,6 +78,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{productId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
@@ -88,6 +91,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{productId}")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid productId,
