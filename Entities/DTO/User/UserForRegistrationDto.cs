@@ -14,6 +14,5 @@ namespace Entities.Dto.User
         [EmailAddress]
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public ICollection<string> Roles { get; set; }
     }
 }
