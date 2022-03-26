@@ -31,6 +31,7 @@ namespace Server
 
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
 
             services.AddMemoryCache();
             services.AddOptions();
