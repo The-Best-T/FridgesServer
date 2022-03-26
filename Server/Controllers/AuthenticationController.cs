@@ -26,6 +26,12 @@ namespace Server.Controllers
             _userManager = userManager;
             _authManager = authManager;
         }
+        [HttpOptions]
+        public IActionResult GetProductsOptions()
+        {
+            Response.Headers.Add("Allow","OPTIONS, POST");
+            return Ok();
+        }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -41,7 +47,7 @@ namespace Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+            await _userManager.AddToRoleAsync(user,"Client");
 
             return StatusCode(201);
         }
