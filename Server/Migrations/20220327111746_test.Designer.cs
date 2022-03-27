@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Server.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220327111746_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -330,8 +332,8 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1faba8ad-fe00-47b6-81de-09228018766c",
-                            ConcurrencyStamp = "44c7cf07-e8d0-4caa-9e03-4fef7fb11350",
+                            Id = "61102998-c342-401d-a55c-32581d2ef0b7",
+                            ConcurrencyStamp = "64a3300a-9bdc-4689-aedd-e16ed56823f5",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
