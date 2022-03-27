@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Server.Authenticate
 {
     public class AuthenticationManager : IAuthenticationManager
     {
