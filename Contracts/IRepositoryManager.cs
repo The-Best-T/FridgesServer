@@ -8,6 +8,7 @@ namespace Contracts
         IFridgeModelRepository FridgeModel { get; }
         IFridgeProductRepository FridgeProduct { get; }
         Task SaveAsync();
+        Task StoredProcedureWithoutParamasAsync(string name);
     }
 
 }

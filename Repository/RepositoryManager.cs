@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 namespace Repository
 {
     public class RepositoryManager : IRepositoryManager
@@ -55,6 +56,11 @@ namespace Repository
         public async Task SaveAsync()
         {
             await _repositoryContext.SaveChangesAsync();
+        }
+
+        public async Task StoredProcedureWithoutParamasAsync(string name)
+        {
+            await _repositoryContext.Database.ExecuteSqlRawAsync("EXECUTE "+name);
         }
     }
 }

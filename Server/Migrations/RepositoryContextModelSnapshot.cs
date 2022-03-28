@@ -330,15 +330,8 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3f8923b2-b13d-4f02-8f28-57e02c8644d5",
-                            ConcurrencyStamp = "d55b2e4b-dc64-4649-9b4e-245dd6c37c61",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "00cdb753-6a3f-4fa0-b5c7-973ec535935a",
-                            ConcurrencyStamp = "4c6d5537-b583-485f-b504-ed82662e7319",
+                            Id = "03e5f91b-13ad-493d-85ab-6a3a7adcb286",
+                            ConcurrencyStamp = "81c1268b-8f6b-40da-bea0-8d5617a8d9d2",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });

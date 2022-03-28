@@ -32,7 +32,6 @@ namespace Repository
             return (!trackChanges) ?
                 _repositoryContext.Set<T>().AsNoTracking() :
                 _repositoryContext.Set<T>();
-
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
@@ -42,5 +41,7 @@ namespace Repository
                 _repositoryContext.Set<T>().AsNoTracking().Where(expression) :
                 _repositoryContext.Set<T>().Where(expression);
         }
+
+
     }
 }

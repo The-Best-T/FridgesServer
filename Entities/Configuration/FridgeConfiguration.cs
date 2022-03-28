@@ -9,6 +9,32 @@ namespace Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<Fridge> builder)
         {
+            builder
+                .HasMany(f => f.Products)
+                .WithMany(p => p.Fridges)
+                .UsingEntity<FridgeProduct>(
+                    j => j
+                    .HasOne(fp => fp.Product)
+                    .WithMany(p => p.FridgeProducts)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasForeignKey(fp => fp.ProductId),
+                    j => j
+                    .HasOne(fp => fp.Fridge)
+                    .WithMany(f => f.FridgeProducts)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasForeignKey(fp => fp.FridgeId),
+                    j =>
+                    {
+                        j.Property(fp => fp.Quantity).HasDefaultValue(0);
+                        j.HasKey(fp => new { fp.FridgeId, fp.ProductId });
+                        j.ToTable("FridgeProduct");
+                    });
+
+            builder
+                .HasOne(f => f.Model)
+                .WithMany(m => m.Fridges)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasData
             (
                 new Fridge

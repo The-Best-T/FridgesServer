@@ -112,5 +112,13 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("fill")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> FillFridges()
+        {
+            await _repository.StoredProcedureWithoutParamasAsync("[dbo].[FillFridges]");
+            return Ok();
+        }
     }
 }
