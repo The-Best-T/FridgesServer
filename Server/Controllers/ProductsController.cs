@@ -36,6 +36,17 @@ namespace Server.Controllers
             return Ok();
         }
 
+        [HttpGet("{productId}", Name = "GetProductById")]
+        [ServiceFilter(typeof(ValidateProductExistsAttribute))]
+        public IActionResult GetProduct(Guid productId)
+        {
+            var product = HttpContext.Items["product"] as Product;
+
+            var productDto = _mapper.Map<ProductDto>(product);
+            return Ok(productDto);
+
+        }
+
         [HttpGet]
         [HttpHead]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
@@ -48,17 +59,6 @@ namespace Server.Controllers
             var productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
 
             return Ok(productsDto);
-        }
-
-        [HttpGet("{productId}", Name = "GetProductById")]
-        [ServiceFilter(typeof(ValidateProductExistsAttribute))]
-        public IActionResult GetProduct(Guid productId)
-        {
-            var product = HttpContext.Items["product"] as Product;
-
-            var productDto = _mapper.Map<ProductDto>(product);
-            return Ok(productDto);
-
         }
 
         [HttpPost]
