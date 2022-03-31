@@ -44,7 +44,6 @@ namespace Server.Controllers
 
             var productDto = _mapper.Map<ProductDto>(product);
             return Ok(productDto);
-
         }
 
         [HttpGet]
@@ -73,7 +72,9 @@ namespace Server.Controllers
 
             var productToReturn = _mapper.Map<ProductDto>(productEntity);
 
-            return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id },
+            return CreatedAtRoute(
+                "GetProductById", 
+                new { productId = productToReturn.Id },
                 productToReturn);
         }
 
