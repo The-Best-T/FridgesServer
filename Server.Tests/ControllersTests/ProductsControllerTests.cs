@@ -18,7 +18,7 @@ namespace Server.Tests.ControllersTests
     public class ProductsControllerTests
     {
         private Mock<IMapper> _mapperMock;
-        private readonly Mock<ILoggerManager> _loggerMock;
+        private Mock<ILoggerManager> _loggerMock;
         private Mock<IRepositoryManager> _repositoryMock;
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Server.Tests.ControllersTests
             //Arrange
             _mapperMock = new Mock<IMapper>();
             _mapperMock.Setup(mp => mp.Map<ProductDto>(It.IsAny<Product>()))
-                .Returns(GetTestProductDto());
+                .Returns(new ProductDto());
 
             _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(rp => rp.Product.CreateProduct(It.IsAny<Product>()));
@@ -148,7 +148,7 @@ namespace Server.Tests.ControllersTests
             //Arrange
             _mapperMock = new Mock<IMapper>();
             _mapperMock.Setup(mp => mp.Map<ProductDto>(It.IsAny<Product>()))
-                .Returns(GetTestProductDto());
+                .Returns(new ProductDto());
             _mapperMock.Setup(mp => mp.Map<Product>(It.IsAny<ProductForCreationDto>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
@@ -170,7 +170,7 @@ namespace Server.Tests.ControllersTests
             //Arrange
             _mapperMock = new Mock<IMapper>();
             _mapperMock.Setup(mp => mp.Map<ProductDto>(It.IsAny<Product>()))
-                .Returns(GetTestProductDto());
+                .Returns(new ProductDto());
 
             _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(rp => rp.Product.CreateProduct(It.IsAny<Product>()));
@@ -287,15 +287,6 @@ namespace Server.Tests.ControllersTests
         {
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext();
-        }
-        private ProductDto GetTestProductDto()
-        {
-            return new ProductDto
-            {
-                Id = Guid.Empty,
-                Name = "TestProductDto",
-                DefaultQuantity = 1
-            };
         }
     }
 }
