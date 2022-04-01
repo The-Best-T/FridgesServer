@@ -31,7 +31,7 @@ namespace Server.Tests.ControllersTests
             SetContext(controller);
 
             //Act
-            var result = controller.GetProductForFridge(It.IsAny<Guid>(),It.IsAny<Guid>());
+            var result = controller.GetProductForFridge(It.IsAny<Guid>(), It.IsAny<Guid>());
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -63,14 +63,14 @@ namespace Server.Tests.ControllersTests
             _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(
                 rp => rp.FridgeProduct
-                .GetProductsForFridgeAsync(It.IsAny<Guid>(),It.IsAny<FridgeProductParameters>(), true))
+                .GetProductsForFridgeAsync(It.IsAny<Guid>(), It.IsAny<FridgeProductParameters>(), true))
                 .Returns(Task.FromResult(GetPagedListOfFridgeProducts()));
 
             var controller = new FridgeProductsController(null, _repositoryMock.Object, _mapperMock.Object);
             SetContext(controller);
 
             //Act
-            var result = await controller.GetProductsForFridge(It.IsAny<Guid>(),It.IsAny<FridgeProductParameters>());
+            var result = await controller.GetProductsForFridge(It.IsAny<Guid>(), It.IsAny<FridgeProductParameters>());
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -129,13 +129,13 @@ namespace Server.Tests.ControllersTests
             _mapperMock.Setup(mp => mp.Map<FridgeProduct>(It.IsAny<FridgeProductForCreationDto>()));
             _mapperMock.Setup(mp => mp.Map<FridgeProductDto>(It.IsAny<FridgeProduct>())).Returns(new FridgeProductDto());
 
-            _repositoryMock= new Mock<IRepositoryManager>();
+            _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(rp => rp.Product.GetProductAsync(It.IsAny<Guid>(), false))
                 .Returns(Task.FromResult(new Product()));
             _repositoryMock.Setup(rp => rp.FridgeProduct.AddProductInFridge(It.IsAny<Guid>(), It.IsAny<FridgeProduct>()));
 
-            var controller=new FridgeProductsController(null, _repositoryMock.Object, _mapperMock.Object);
-            
+            var controller = new FridgeProductsController(null, _repositoryMock.Object, _mapperMock.Object);
+
             //Act
             var result = await controller.AddProductInFridge(It.IsAny<Guid>(), new FridgeProductForCreationDto());
 
@@ -248,7 +248,7 @@ namespace Server.Tests.ControllersTests
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map(It.IsAny<FridgeProductForUpdateDto>(),It.IsAny <FridgeProduct>()));
+            _mapperMock.Setup(mp => mp.Map(It.IsAny<FridgeProductForUpdateDto>(), It.IsAny<FridgeProduct>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
 
@@ -257,7 +257,7 @@ namespace Server.Tests.ControllersTests
 
             //Act
             var result = await controller
-                .UpdateProductForFridge(It.IsAny<Guid>(),It.IsAny<Guid>(), It.IsAny<FridgeProductForUpdateDto>());
+                .UpdateProductForFridge(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<FridgeProductForUpdateDto>());
 
             //Assert
             Assert.IsType<NoContentResult>(result);
