@@ -146,7 +146,7 @@ namespace Server.Tests.ControllersTests
         }
 
         [Fact]
-        public async Task CreateFridge_TestResult_ReturnNotFound()
+        public async Task CreateFridge_TestResult_ReturnStatusNotFound()
         {
             //Arrange
             _repositoryMock = new Mock<IRepositoryManager>();
@@ -155,13 +155,10 @@ namespace Server.Tests.ControllersTests
                 .GetFridgeModelAsync(It.IsAny<Guid>(), false))
                 .Returns(Task.FromResult(It.IsAny<FridgeModel>()));
 
-            _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map<FridgeDto>(It.IsAny<Fridge>())).Returns(new FridgeDto());
-
             _loggerMock=new Mock<ILoggerManager>();
             _loggerMock.Setup(l => l.LogInfo(It.IsAny<string>()));
 
-            var controller = new FridgesController(_loggerMock.Object, _repositoryMock.Object, _mapperMock.Object);
+            var controller = new FridgesController(_loggerMock.Object, _repositoryMock.Object, null);
 
             //Act
             var result = await controller.CreateFridge(new FridgeForCreationDto());
@@ -254,13 +251,12 @@ namespace Server.Tests.ControllersTests
             _repositoryMock.VerifyAll();
         }
 
-
         [Fact]
         public async Task UpdateFridge_TestResult_ReturnStatusNoContent()
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map<Fridge>(It.IsAny<FridgeForUpdateDto>()));
+            _mapperMock.Setup(mp => mp.Map(It.IsAny<FridgeForUpdateDto>(), It.IsAny<Fridge>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
 
@@ -298,7 +294,7 @@ namespace Server.Tests.ControllersTests
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map<Fridge>(It.IsAny<FridgeForUpdateDto>()));
+            _mapperMock.Setup(mp => mp.Map(It.IsAny<FridgeForUpdateDto>(), It.IsAny<Fridge>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(rp => rp.SaveAsync());

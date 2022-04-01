@@ -226,7 +226,7 @@ namespace Server.Tests.ControllersTests
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map<Product>(It.IsAny<ProductForUpdateDto>()));
+            _mapperMock.Setup(mp => mp.Map(It.IsAny<ProductForUpdateDto>(), It.IsAny<Product>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
 
@@ -264,7 +264,7 @@ namespace Server.Tests.ControllersTests
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
-            _mapperMock.Setup(mp => mp.Map<Product>(It.IsAny<ProductForUpdateDto>()));
+            _mapperMock.Setup(mp => mp.Map(It.IsAny<ProductForUpdateDto>(), It.IsAny<Product>()));
 
             _repositoryMock = new Mock<IRepositoryManager>();
             _repositoryMock.Setup(rp => rp.SaveAsync());
