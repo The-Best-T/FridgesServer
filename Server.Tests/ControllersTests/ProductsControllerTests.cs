@@ -22,7 +22,7 @@ namespace Server.Tests.ControllersTests
         private Mock<IRepositoryManager> _repositoryMock;
 
         [Fact]
-        public void GetProduct_TestResult_ReturnStatusOk()
+        public void GetProduct_TestResult_ReturnOkObjectResult()
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
@@ -55,7 +55,7 @@ namespace Server.Tests.ControllersTests
         }
 
         [Fact]
-        public async Task GetProducts_TestResult_ReturnStatusOk()
+        public async Task GetProducts_TestResult_ReturnOkObjectResult()
         {
             //Arrange
             _mapperMock = new Mock<IMapper>();
