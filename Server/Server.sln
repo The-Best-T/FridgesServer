@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "..\Entities\Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "..\Repository\Repository.csproj", "{A6895DAD-3DA5-4358-9718-52F6BB596A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "..\Server.Tests\Server.Tests.csproj", "{40AC6DE3-5D96-4093-BCD3-0A97E854F275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Tests", "..\Server.Tests\Server.Tests.csproj", "{40AC6DE3-5D96-4093-BCD3-0A97E854F275}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

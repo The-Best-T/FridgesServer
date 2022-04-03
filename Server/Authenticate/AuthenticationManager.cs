@@ -26,7 +26,9 @@ namespace Server.Authenticate
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
+            bool correctPassword = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
+
+            return (_user != null && correctPassword);
         }
         public async Task<string> CreateToken()
         {
