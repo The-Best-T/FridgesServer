@@ -63,11 +63,13 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridge([FromBody] FridgeForCreationDto fridge)
         {
+            var fridgeModelId = fridge.ModelId;
+
             var fridgeModel = await _repository.FridgeModel
-                .GetFridgeModelAsync(fridge.ModelId, trackChanges: false);
+                .GetFridgeModelAsync(fridgeModelId, trackChanges: false);
             if (fridgeModel == null)
             {
-                _logger.LogInfo($"FridgeModel with id {fridge.ModelId} doesn't exist in database.");
+                _logger.LogInfo($"FridgeModel with id {fridgeModelId} doesn't exist in database.");
                 return NotFound();
             }
             var fridgeEntity = _mapper.Map<Fridge>(fridge);
@@ -77,11 +79,9 @@ namespace Server.Controllers
 
             fridgeEntity.Model = fridgeModel;
             var fridgeToReturn = _mapper.Map<FridgeDto>(fridgeEntity);
-            return CreatedAtRoute("GetFridgeById",
-                new
-                {
-                    fridgeId = fridgeToReturn.Id
-                },
+            return CreatedAtRoute(
+                "GetFridgeById",
+                new { fridgeId = fridgeToReturn.Id },
                 fridgeToReturn);
         }
 

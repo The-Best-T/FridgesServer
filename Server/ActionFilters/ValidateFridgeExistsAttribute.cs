@@ -27,6 +27,7 @@ namespace Server.ActionFilters
             {
                 _logger.LogInfo($"Fridge with id: {fridgeId} doesn't exist in the database.");
                 context.Result = new NotFoundResult();
+                return;
             }
             else
             {

@@ -71,7 +71,9 @@ namespace Server.Controllers
 
             var fridgeModelToReturn = _mapper.Map<FridgeModelDto>(fridgeModelEntity);
 
-            return CreatedAtRoute("GetFridgeModelById", new { fridgeModelId = fridgeModelToReturn.Id },
+            return CreatedAtRoute(
+                "GetFridgeModelById", 
+                new { fridgeModelId = fridgeModelToReturn.Id },
                 fridgeModelToReturn);
         }
 

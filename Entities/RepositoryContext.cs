@@ -6,10 +6,10 @@ namespace Entities
 {
     public class RepositoryContext : IdentityDbContext<User>
     {
-        public DbSet<Fridge> Fridges { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<FridgeModel> FridgeModels { get; set; }
-        public DbSet<FridgeProduct> FridgeProducts { get; set; }
+        public virtual DbSet<Fridge> Fridges { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<FridgeModel> FridgeModels { get; set; }
+        public virtual DbSet<FridgeProduct> FridgeProducts { get; set; }
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
