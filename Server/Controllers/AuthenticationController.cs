@@ -10,6 +10,7 @@ using Contracts;
 
 namespace Server.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
