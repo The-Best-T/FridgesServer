@@ -99,6 +99,66 @@
             <returns>All avaiable queries in header</returns>
             <response code="200">Returns all avaiable queries in header</response>
         </member>
+        <member name="M:Server.Controllers.FridgeProductsController.GetProductForFridge(System.Guid,System.Guid)">
+            <summary>
+            Get one product from fridge by fridge id and product id
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="productId"></param>
+            <returns>One product from the fridge</returns>
+            <response code="200">Returns one product from the fridge</response>
+            <response code="404">Fridge or product in this fridge with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeProductsController.GetProductsForFridge(System.Guid,Entities.RequestFeatures.FridgeProductParameters)">
+            <summary>
+            Get all product from fridge 
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="parameters"></param>
+            <returns>List of products from the fridge </returns>
+            <response code="200">Returns list of products from the fridge</response>
+            <response code="404">Fridge with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeProductsController.AddProductInFridge(System.Guid,Entities.Dto.FridgeProduct.FridgeProductForCreationDto)">
+            <summary>
+            Add new product in fridge
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="fridgeProduct"></param>
+            <returns>The newly product from the fridge</returns>
+            <response code="201">Returns the newly product from the fridge</response>
+            <response code="400">FridgeProductForCreationDto is null</response>
+            <response code="404">Fridge or product with this id not found</response>
+            <response code="422">FridgeProductForCreationDto is invalid</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeProductsController.DeleteProductFromFridge(System.Guid,System.Guid)">
+            <summary>
+            Delete product from fridge
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="productId"></param>
+            <returns></returns>
+            <response code="204">Product deleted from the fridge</response>
+            <response code="404">Fridge or product in this fridge with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeProductsController.UpdateProductForFridge(System.Guid,System.Guid,Entities.Dto.FridgeProduct.FridgeProductForUpdateDto)">
+            <summary>
+            Update product in fridge
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="productId"></param>
+            <param name="fridgeProduct"></param>
+            <returns></returns>
+            <response code="204">Product deleted from the fridge</response>
+            <response code="400">FridgeProductForCreationDto is null</response>
+            <response code="404">Fridge or product with this id not found</response>
+            <response code="422">FridgeProductForCreationDto is invalid</response>
+            <response code="500">Server error</response>
+        </member>
         <member name="M:Server.Controllers.FridgesController.GetFridgesOptions">
             <summary>
             Get available queries 
