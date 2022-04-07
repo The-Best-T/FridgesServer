@@ -166,7 +166,6 @@ namespace Server.Controllers
             return NoContent();
         }
 
-
         /// <summary>
         /// Update product in fridge
         /// </summary>
