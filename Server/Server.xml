@@ -64,8 +64,8 @@
             <param name="fridgeModel"></param>
             <returns>A newly created fridge model</returns>
             <response code="201">Returns the newly fridge model</response>
-            <response code="400">fridgeModel is null</response>
-            <response code="422">fridgeModel is invalid</response>
+            <response code="400">FridgeModelForCreationDto is null</response>
+            <response code="422">FridgeModelForCreationDto is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgeModelsController.DeleteFridgeModel(System.Guid)">
@@ -86,9 +86,9 @@
             <param name="fridgeModel"></param>
             <returns></returns>
             <response code="204">Fridge model updated</response>
-            <response code="400">fridgeModel is null</response>
+            <response code="400">FridgeModelForUpdateDto is null</response>
             <response code="404">Fridge model with this id not found</response>
-            <response code="422">fridgeModel is invalid</response>
+            <response code="422">FridgeModelForUpdateDto is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgeProductsController.GetFridgeProductsOptions">
@@ -133,9 +133,9 @@
             <param name="fridge"></param>
             <returns>A newly created fridge</returns>
             <response code="201">Returns the newly fridge</response>
-            <response code="400">fridge is null</response>
+            <response code="400">FridgeForCreationDto is null</response>
             <response code="404">This fridge model not found</response>
-            <response code="422">fridge is invalid</response>
+            <response code="422">FridgeForCreationDto is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgesController.DeleteFridge(System.Guid)">
@@ -156,9 +156,9 @@
             <param name="fridge"></param>
             <returns></returns>
             <response code="204">Fridge updated</response>
-            <response code="400">fridge is null</response>
+            <response code="400">FridgeForUpdateDto is null</response>
             <response code="404">Fridge with this id not found</response>
-            <response code="422">fridge is invalid</response>
+            <response code="422">FridgeForUpdateDto is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgesController.FillFridges">
@@ -202,8 +202,8 @@
             <param name="product"></param>
             <returns>A newly created product</returns>
             <response code="201">Returns the newly product</response>
-            <response code="400">product is null</response>
-            <response code="422">product is invalid</response>
+            <response code="400">ProductForCreationDto is null</response>
+            <response code="422">ProductForCreationDto is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.ProductsController.DeleteProduct(System.Guid)">
@@ -224,9 +224,9 @@
             <param name="product"></param>
             <returns></returns>
             <response code="204">product updated</response>
-            <response code="400">product is null</response>
+            <response code="400">ProductForUpdateDto is null</response>
             <response code="404">Product with this id not found</response>
-            <response code="422">product is invalid</response>
+            <response code="422">ProductForUpdateDto is invalid</response>
             <response code="500">Server error</response>
         </member>
     </members>
