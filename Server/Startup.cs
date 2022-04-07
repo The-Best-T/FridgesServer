@@ -66,17 +66,17 @@ namespace Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(s =>
+                {
+                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Fridges API v1");
+                });
             }
             else
             {
                 app.UseHsts();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(s =>
-            {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Fridges API v1");
-            });
 
             app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
