@@ -28,14 +28,32 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get available queries 
+        /// </summary>
+        /// <param></param>
+        /// <returns>All avaiable queries in header</returns>
+        /// <response code="200">Returns all avaiable queries in header</response>
         [HttpOptions]
+        [ProducesResponseType(200)]
         public IActionResult GetFridgeModelsOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
             return Ok();
         }
 
+        /// <summary>
+        /// Get fridge model by id
+        /// </summary>
+        /// <param name="fridgeModelId"></param>
+        /// <returns>One Fridge Model</returns>
+        /// <response code="200">Return one fridge model</response>
+        /// <response code="404">Fridge model with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public IActionResult GetFridgeModel(Guid fridgeModelId)
         {
@@ -46,8 +64,17 @@ namespace Server.Controllers
 
         }
 
+        /// <summary>
+        /// Gets the list of all fridge models
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns> list of fridge models</returns>
+        /// <response code="200">Return all fridge models</response>
+        /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetFridgeModels([FromQuery] FridgeModelParameters parameters)
         {
             var fridgeModels = await _repository.FridgeModel
@@ -59,7 +86,20 @@ namespace Server.Controllers
             return Ok(fridgeModelsDto);
         }
 
+        /// <summary>
+        /// Create new fridge model
+        /// </summary>
+        /// <param name="fridgeModel"></param>
+        /// <returns>A newly created fridge model</returns>
+        /// <response code="201">Returns the newly fridge model</response>
+        /// <response code="400">fridgeModel is null</response>
+        /// <response code="422">fridgeModel is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles ="Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDto fridgeModel)
@@ -77,7 +117,18 @@ namespace Server.Controllers
                 fridgeModelToReturn);
         }
 
+        /// <summary>
+        /// Delete frige model by id
+        /// </summary>
+        /// <param name="fridgeModelId"></param>
+        /// <returns></returns>
+        /// <response code="204">Fridge model deleted</response>
+        /// <response code="404">Fridge model with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpDelete("{fridgeModelId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
         public async Task<IActionResult> DeleteFridgeModel(Guid fridgeModelId)
@@ -90,7 +141,23 @@ namespace Server.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update fridge model
+        /// </summary>
+        /// <param name="fridgeModelId"></param>
+        /// <param name="fridgeModel"></param>
+        /// <returns></returns>
+        /// <response code="204">Fridge model updated</response>
+        /// <response code="400">fridgeModel is null</response>
+        /// <response code="404">Fridge model with this id not found</response>
+        /// <response code="422">fridgeModel is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPut("{fridgeModelId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]

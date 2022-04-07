@@ -21,20 +21,36 @@ namespace Server.Controllers
         private readonly IAuthenticationManager _authManager;
         public AuthenticationController(ILoggerManager logger, IMapper mapper,
             UserManager<User> userManager, IAuthenticationManager authManager)
-        { 
+        {
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
             _authManager = authManager;
         }
+        /// <summary>
+        /// Get available queries 
+        /// </summary>
+        /// <param></param>
+        /// <returns>All avaiable queries in header</returns>
+        /// <response code="200">Returns all avaiable queries in header</response>
         [HttpOptions]
+        [ProducesResponseType(200)]
         public IActionResult GetProductsOptions()
         {
             Response.Headers.Add("Allow","OPTIONS, POST");
             return Ok();
         }
 
+        /// <summary>
+        /// Registration new user
+        /// </summary>
+        /// <param name="userForRegistration"></param>
+        /// <returns></returns>
+        /// <response code="201">Registration was success</response>
+        /// <response code="400">Model for registration is invalid or user is already exists</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -52,7 +68,17 @@ namespace Server.Controllers
 
             return StatusCode(201);
         }
+
+        /// <summary>
+        /// Authentication with login and password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>JWT</returns>
+        /// <response code="200">Authentication was success</response>
+        /// <response code="401">Wrong login or password</response>
         [HttpPost("login")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
         {

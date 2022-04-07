@@ -11,17 +11,68 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NLog;
 using Repository;
 using Server.ActionFilters;
 using Server.Authenticate;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 namespace Server.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Fridges API",
+                    Version = "v1",
+                    Description = "FridgeProducts API by TheBest",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Hamichenok Evgeniy",
+                        Email = "zhamichenok@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/thebesti"),
+                    },
+                });
+
+                var xmlFile = "Server.xml";
+                var xmlPath = Path.Combine(Directory.GetCurrentDirectory(), xmlFile);
+                s.IncludeXmlComments(xmlPath);  
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Name = "Bearer",
+                        },
+                        new List<string>()
+                    }
+                });
+            });
+        }
+
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
@@ -48,15 +99,15 @@ namespace Server.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<User,IdentityRole>(o =>
-            {
-                o.Password.RequireDigit = true; 
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
-                o.Password.RequiredLength = 10;
-                o.User.RequireUniqueEmail = true;
-            });
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
+             {
+                 o.Password.RequireDigit = true;
+                 o.Password.RequireLowercase = false;
+                 o.Password.RequireUppercase = false;
+                 o.Password.RequireNonAlphanumeric = false;
+                 o.Password.RequiredLength = 10;
+                 o.User.RequireUniqueEmail = true;
+             });
             builder = new IdentityBuilder(builder.UserType, builder.RoleType, builder.Services);
             builder.AddEntityFrameworkStores<RepositoryContext>()
                 .AddDefaultTokenProviders();

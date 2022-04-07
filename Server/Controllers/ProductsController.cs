@@ -29,7 +29,14 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get available queries 
+        /// </summary>
+        /// <param></param>
+        /// <returns>All avaiable queries in header</returns>
+        /// <response code="200">Returns all avaiable queries in header</response>
         [HttpOptions]
+        [ProducesResponseType(200)]
         public IActionResult GetProductsOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");

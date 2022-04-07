@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Server</name>
+    </assembly>
+    <members>
+        <member name="M:Server.Controllers.AuthenticationController.GetProductsOptions">
+            <summary>
+            Get available queries 
+            </summary>
+            <param></param>
+            <returns>All avaiable queries in header</returns>
+            <response code="200">Returns all avaiable queries in header</response>
+        </member>
+        <member name="M:Server.Controllers.AuthenticationController.RegisterUser(Entities.Dto.User.UserForRegistrationDto)">
+            <summary>
+            Registration new user
+            </summary>
+            <param name="userForRegistration"></param>
+            <returns></returns>
+            <response code="201">Registration was success</response>
+            <response code="400">Model for registration is invalid or user is already exists</response>
+        </member>
+        <member name="M:Server.Controllers.AuthenticationController.Authenticate(Entities.Dto.User.UserForAuthenticationDto)">
+            <summary>
+            Authentication with login and password
+            </summary>
+            <param name="user"></param>
+            <returns>JWT</returns>
+            <response code="200">Authentication was success</response>
+            <response code="401">Wrong login or password</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.GetFridgeModelsOptions">
+            <summary>
+            Get available queries 
+            </summary>
+            <param></param>
+            <returns>All avaiable queries in header</returns>
+            <response code="200">Returns all avaiable queries in header</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.GetFridgeModel(System.Guid)">
+            <summary>
+            Get fridge model by id
+            </summary>
+            <param name="fridgeModelId"></param>
+            <returns>One Fridge Model</returns>
+            <response code="200">Return one fridge model</response>
+            <response code="404">Fridge model with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.GetFridgeModels(Entities.RequestFeatures.FridgeModelParameters)">
+            <summary>
+            Gets the list of all fridge models
+            </summary>
+            <param name="parameters"></param>
+            <returns> list of fridge models</returns>
+            <response code="200">Return all fridge models</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.CreateFridgeModel(Entities.Dto.FridgeModel.FridgeModelForCreationDto)">
+            <summary>
+            Create new fridge model
+            </summary>
+            <param name="fridgeModel"></param>
+            <returns>A newly created fridge model</returns>
+            <response code="201">Return all fridge models</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeProductsController.GetFridgeProductsOptions">
+            <summary>
+            Get available queries 
+            </summary>
+            <param></param>
+            <returns>All avaiable queries in header</returns>
+            <response code="200">Returns all avaiable queries in header</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.GetFridgesOptions">
+            <summary>
+            Get available queries 
+            </summary>
+            <param></param>
+            <returns>All avaiable queries in header</returns>
+            <response code="200">Returns all avaiable queries in header</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.GetProductsOptions">
+            <summary>
+            Get available queries 
+            </summary>
+            <param></param>
+            <returns>All avaiable queries in header</returns>
+            <response code="200">Returns all avaiable queries in header</response>
+        </member>
+    </members>
+</doc>

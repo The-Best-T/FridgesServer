@@ -39,6 +39,7 @@ namespace Server
             services.AddHttpContextAccessor();
 
             services.ConfigureVersioning();
+            services.ConfigureSwagger();
 
             services.AddAutoMapper(typeof(Startup));
             services.ConfigureSqlContext(Configuration);
@@ -70,6 +71,12 @@ namespace Server
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Fridges API v1");
+            });
 
             app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
