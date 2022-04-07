@@ -42,9 +42,9 @@ namespace Server.Extensions
                     },
                 });
 
-                var xmlFile = "Server.xml";
-                var xmlPath = Path.Combine(Directory.GetCurrentDirectory(), xmlFile);
-                s.IncludeXmlComments(xmlPath);  
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
 
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
