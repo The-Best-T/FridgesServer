@@ -63,7 +63,32 @@
             </summary>
             <param name="fridgeModel"></param>
             <returns>A newly created fridge model</returns>
-            <response code="201">Return all fridge models</response>
+            <response code="201">Returns the newly fridge model</response>
+            <response code="400">fridgeModel is null</response>
+            <response code="422">fridgeModel is invalid</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.DeleteFridgeModel(System.Guid)">
+            <summary>
+            Delete frige model by id
+            </summary>
+            <param name="fridgeModelId"></param>
+            <returns></returns>
+            <response code="204">Fridge model deleted</response>
+            <response code="404">Fridge model with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgeModelsController.UpdateFridgeModel(System.Guid,Entities.Dto.FridgeModel.FridgeModelForUpdateDto)">
+            <summary>
+            Update fridge model
+            </summary>
+            <param name="fridgeModelId"></param>
+            <param name="fridgeModel"></param>
+            <returns></returns>
+            <response code="204">Fridge model updated</response>
+            <response code="400">fridgeModel is null</response>
+            <response code="404">Fridge model with this id not found</response>
+            <response code="422">fridgeModel is invalid</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgeProductsController.GetFridgeProductsOptions">
