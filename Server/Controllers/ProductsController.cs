@@ -43,7 +43,18 @@ namespace Server.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get product by id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns>One product</returns>
+        /// <response code="200">Return one product</response>
+        /// <response code="404">Product with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpGet("{productId}", Name = "GetProductById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public IActionResult GetProduct(Guid productId)
         {
@@ -53,8 +64,17 @@ namespace Server.Controllers
             return Ok(productDto);
         }
 
+        /// <summary>
+        /// Gets the list of all products
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns> list of products</returns>
+        /// <response code="200">Return all products</response>
+        /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
             var products = await _repository.Product
@@ -67,7 +87,20 @@ namespace Server.Controllers
             return Ok(productsDto);
         }
 
+        /// <summary>
+        /// Create new product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>A newly created product</returns>
+        /// <response code="201">Returns the newly product</response>
+        /// <response code="400">product is null</response>
+        /// <response code="422">product is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto product)
@@ -85,7 +118,18 @@ namespace Server.Controllers
                 productToReturn);
         }
 
+        /// <summary>
+        /// Delete product by id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        /// <response code="204">Product deleted</response>
+        /// <response code="404">Product with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpDelete("{productId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
         public async Task<IActionResult> DeleteProduct(Guid productId)
@@ -98,7 +142,23 @@ namespace Server.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update product by id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        /// <response code="204">product updated</response>
+        /// <response code="400">product is null</response>
+        /// <response code="404">Product with this id not found</response>
+        /// <response code="422">product is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPut("{productId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]

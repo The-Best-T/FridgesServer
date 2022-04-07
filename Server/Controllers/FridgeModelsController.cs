@@ -46,7 +46,7 @@ namespace Server.Controllers
         /// Get fridge model by id
         /// </summary>
         /// <param name="fridgeModelId"></param>
-        /// <returns>One Fridge Model</returns>
+        /// <returns>One fridge model</returns>
         /// <response code="200">Return one fridge model</response>
         /// <response code="404">Fridge model with this id not found</response>
         /// <response code="500">Server error</response>
@@ -142,7 +142,7 @@ namespace Server.Controllers
         }
 
         /// <summary>
-        /// Update fridge model
+        /// Update fridge model by id
         /// </summary>
         /// <param name="fridgeModelId"></param>
         /// <param name="fridgeModel"></param>

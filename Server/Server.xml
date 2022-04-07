@@ -43,7 +43,7 @@
             Get fridge model by id
             </summary>
             <param name="fridgeModelId"></param>
-            <returns>One Fridge Model</returns>
+            <returns>One fridge model</returns>
             <response code="200">Return one fridge model</response>
             <response code="404">Fridge model with this id not found</response>
             <response code="500">Server error</response>
@@ -80,7 +80,7 @@
         </member>
         <member name="M:Server.Controllers.FridgeModelsController.UpdateFridgeModel(System.Guid,Entities.Dto.FridgeModel.FridgeModelForUpdateDto)">
             <summary>
-            Update fridge model
+            Update fridge model by id
             </summary>
             <param name="fridgeModelId"></param>
             <param name="fridgeModel"></param>
@@ -114,6 +114,59 @@
             <param></param>
             <returns>All avaiable queries in header</returns>
             <response code="200">Returns all avaiable queries in header</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.GetProduct(System.Guid)">
+            <summary>
+            Get product by id
+            </summary>
+            <param name="productId"></param>
+            <returns>One product</returns>
+            <response code="200">Return one product</response>
+            <response code="404">Product with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.GetProducts(Entities.RequestFeatures.ProductParameters)">
+            <summary>
+            Gets the list of all products
+            </summary>
+            <param name="parameters"></param>
+            <returns> list of products</returns>
+            <response code="200">Return all products</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.CreateProduct(Entities.Dto.Product.ProductForCreationDto)">
+            <summary>
+            Create new product
+            </summary>
+            <param name="product"></param>
+            <returns>A newly created product</returns>
+            <response code="201">Returns the newly product</response>
+            <response code="400">product is null</response>
+            <response code="422">product is invalid</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.DeleteProduct(System.Guid)">
+            <summary>
+            Delete product by id
+            </summary>
+            <param name="productId"></param>
+            <returns></returns>
+            <response code="204">Product deleted</response>
+            <response code="404">Product with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.ProductsController.UpdateProduct(System.Guid,Entities.Dto.Product.ProductForUpdateDto)">
+            <summary>
+            Update product by id
+            </summary>
+            <param name="productId"></param>
+            <param name="product"></param>
+            <returns></returns>
+            <response code="204">product updated</response>
+            <response code="400">product is null</response>
+            <response code="404">Product with this id not found</response>
+            <response code="422">product is invalid</response>
+            <response code="500">Server error</response>
         </member>
     </members>
 </doc>

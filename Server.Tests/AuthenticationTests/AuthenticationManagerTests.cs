@@ -51,17 +51,5 @@ namespace Server.Tests.AuthenticationTests
             _userManagerMock.VerifyAll();
         }
 
-        [Fact]
-        public async Task CreateToken_Test()
-        {
-            //Arrange
-            var controller=new AuthenticationManager(null, null);
-
-            //Act
-            var result = await controller.CreateToken();
-
-            //Assert
-            Assert.NotNull(result);
-        }
     }
 }
