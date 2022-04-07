@@ -42,7 +42,18 @@ namespace Server.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get fridge by id
+        /// </summary>
+        /// <param name="fridgeId"></param>
+        /// <returns>One fridge</returns>
+        /// <response code="200">Returns one fridge</response>
+        /// <response code="404">Fridge with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpGet("{fridgeId}", Name = "GetFridgeById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [ServiceFilter((typeof(ValidateFridgeExistsAttribute)))]
         public IActionResult GetFridge(Guid fridgeId)
         {
@@ -52,8 +63,17 @@ namespace Server.Controllers
             return Ok(FridgeDto);
         }
 
+        /// <summary>
+        /// Gets the list of all fridges
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns> list of fridgs</returns>
+        /// <response code="200">Returns all fridgs</response>
+        /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetFridges([FromQuery] FridgeParameters parameters)
         {
             var fridges = await _repository.Fridge.GetFridgesAsync(parameters, trackChanges: true);
@@ -65,7 +85,22 @@ namespace Server.Controllers
             return Ok(FridgeDto);
         }
 
+        /// <summary>
+        /// Create new fridge
+        /// </summary>
+        /// <param name="fridge"></param>
+        /// <returns>A newly created fridge</returns>
+        /// <response code="201">Returns the newly fridge</response>
+        /// <response code="400">FridgeForCreationDto is null</response>
+        /// <response code="404">This fridge model not found</response>
+        /// <response code="422">FridgeForCreationDto is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridge([FromBody] FridgeForCreationDto fridge)
@@ -92,7 +127,18 @@ namespace Server.Controllers
                 fridgeToReturn);
         }
 
+        /// <summary>
+        /// Delete frige by id
+        /// </summary>
+        /// <param name="fridgeId"></param>
+        /// <returns></returns>
+        /// <response code="204">Fridge deleted</response>
+        /// <response code="404">Fridge with this id not found</response>
+        /// <response code="500">Server error</response>
         [HttpDelete("{fridgeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
         public async Task<IActionResult> DeleteFridge(Guid fridgeId)
@@ -105,7 +151,23 @@ namespace Server.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update fridge by id
+        /// </summary>
+        /// <param name="fridgeId"></param>
+        /// <param name="fridge"></param>
+        /// <returns></returns>
+        /// <response code="204">Fridge updated</response>
+        /// <response code="400">FridgeForUpdateDto is null</response>
+        /// <response code="404">Fridge with this id not found</response>
+        /// <response code="422">FridgeForUpdateDto is invalid</response>
+        /// <response code="500">Server error</response>
         [HttpPut("{fridgeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
@@ -120,7 +182,13 @@ namespace Server.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// In all fridges set quantity of products to standard quantity if quantity is 0 
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Fridges are filled</response>
         [HttpPost("fill")]
+        [ProducesResponseType(200)]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> FillFridges()
         {

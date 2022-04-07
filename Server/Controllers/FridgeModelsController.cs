@@ -47,7 +47,7 @@ namespace Server.Controllers
         /// </summary>
         /// <param name="fridgeModelId"></param>
         /// <returns>One fridge model</returns>
-        /// <response code="200">Return one fridge model</response>
+        /// <response code="200">Returns one fridge model</response>
         /// <response code="404">Fridge model with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
@@ -69,7 +69,7 @@ namespace Server.Controllers
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns> list of fridge models</returns>
-        /// <response code="200">Return all fridge models</response>
+        /// <response code="200">Returns all fridge models</response>
         /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
@@ -92,8 +92,8 @@ namespace Server.Controllers
         /// <param name="fridgeModel"></param>
         /// <returns>A newly created fridge model</returns>
         /// <response code="201">Returns the newly fridge model</response>
-        /// <response code="400">fridgeModel is null</response>
-        /// <response code="422">fridgeModel is invalid</response>
+        /// <response code="400">FridgeModelForCreationDto is null</response>
+        /// <response code="422">FridgeModelForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPost]
         [ProducesResponseType(201)]
@@ -148,9 +148,9 @@ namespace Server.Controllers
         /// <param name="fridgeModel"></param>
         /// <returns></returns>
         /// <response code="204">Fridge model updated</response>
-        /// <response code="400">fridgeModel is null</response>
+        /// <response code="400">FridgeModelForUpdateDto is null</response>
         /// <response code="404">Fridge model with this id not found</response>
-        /// <response code="422">fridgeModel is invalid</response>
+        /// <response code="422">FridgeModelForUpdateDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPut("{fridgeModelId}")]
         [ProducesResponseType(204)]

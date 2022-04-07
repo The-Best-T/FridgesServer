@@ -44,7 +44,7 @@
             </summary>
             <param name="fridgeModelId"></param>
             <returns>One fridge model</returns>
-            <response code="200">Return one fridge model</response>
+            <response code="200">Returns one fridge model</response>
             <response code="404">Fridge model with this id not found</response>
             <response code="500">Server error</response>
         </member>
@@ -54,7 +54,7 @@
             </summary>
             <param name="parameters"></param>
             <returns> list of fridge models</returns>
-            <response code="200">Return all fridge models</response>
+            <response code="200">Returns all fridge models</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.FridgeModelsController.CreateFridgeModel(Entities.Dto.FridgeModel.FridgeModelForCreationDto)">
@@ -107,6 +107,67 @@
             <returns>All avaiable queries in header</returns>
             <response code="200">Returns all avaiable queries in header</response>
         </member>
+        <member name="M:Server.Controllers.FridgesController.GetFridge(System.Guid)">
+            <summary>
+            Get fridge by id
+            </summary>
+            <param name="fridgeId"></param>
+            <returns>One fridge</returns>
+            <response code="200">Returns one fridge</response>
+            <response code="404">Fridge with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.GetFridges(Entities.RequestFeatures.FridgeParameters)">
+            <summary>
+            Gets the list of all fridges
+            </summary>
+            <param name="parameters"></param>
+            <returns> list of fridgs</returns>
+            <response code="200">Returns all fridgs</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.CreateFridge(Entities.Dto.Fridge.FridgeForCreationDto)">
+            <summary>
+            Create new fridge
+            </summary>
+            <param name="fridge"></param>
+            <returns>A newly created fridge</returns>
+            <response code="201">Returns the newly fridge</response>
+            <response code="400">fridge is null</response>
+            <response code="404">This fridge model not found</response>
+            <response code="422">fridge is invalid</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.DeleteFridge(System.Guid)">
+            <summary>
+            Delete frige by id
+            </summary>
+            <param name="fridgeId"></param>
+            <returns></returns>
+            <response code="204">Fridge deleted</response>
+            <response code="404">Fridge with this id not found</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.UpdateFridge(System.Guid,Entities.Dto.Fridge.FridgeForUpdateDto)">
+            <summary>
+            Update fridge by id
+            </summary>
+            <param name="fridgeId"></param>
+            <param name="fridge"></param>
+            <returns></returns>
+            <response code="204">Fridge updated</response>
+            <response code="400">fridge is null</response>
+            <response code="404">Fridge with this id not found</response>
+            <response code="422">fridge is invalid</response>
+            <response code="500">Server error</response>
+        </member>
+        <member name="M:Server.Controllers.FridgesController.FillFridges">
+            <summary>
+            In all fridges set quantity of products to standard quantity if quantity is 0 
+            </summary>
+            <returns></returns>
+            <response code="200">Fridges are filled</response>
+        </member>
         <member name="M:Server.Controllers.ProductsController.GetProductsOptions">
             <summary>
             Get available queries 
@@ -121,7 +182,7 @@
             </summary>
             <param name="productId"></param>
             <returns>One product</returns>
-            <response code="200">Return one product</response>
+            <response code="200">Returns one product</response>
             <response code="404">Product with this id not found</response>
             <response code="500">Server error</response>
         </member>
@@ -131,7 +192,7 @@
             </summary>
             <param name="parameters"></param>
             <returns> list of products</returns>
-            <response code="200">Return all products</response>
+            <response code="200">Returns all products</response>
             <response code="500">Server error</response>
         </member>
         <member name="M:Server.Controllers.ProductsController.CreateProduct(Entities.Dto.Product.ProductForCreationDto)">
