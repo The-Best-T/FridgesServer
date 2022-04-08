@@ -34,8 +34,10 @@ namespace Server.Controllers
         /// <param></param>
         /// <returns>All avaiable queries in header</returns>
         /// <response code="200">Returns all avaiable queries in header</response>
+        /// <response code="401">Not authorized</response>
         [HttpOptions]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public IActionResult GetFridgeModelsOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
@@ -48,10 +50,12 @@ namespace Server.Controllers
         /// <param name="fridgeModelId"></param>
         /// <returns>One fridge model</returns>
         /// <response code="200">Returns one fridge model</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge model with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet("{fridgeModelId}", Name = "GetFridgeModelById")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateFridgeModelExistsAttribute))]
@@ -70,10 +74,12 @@ namespace Server.Controllers
         /// <param name="parameters"></param>
         /// <returns> list of fridge models</returns>
         /// <response code="200">Returns all fridge models</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetFridgeModels([FromQuery] FridgeModelParameters parameters)
         {
@@ -93,11 +99,13 @@ namespace Server.Controllers
         /// <returns>A newly created fridge model</returns>
         /// <response code="201">Returns the newly fridge model</response>
         /// <response code="400">FridgeModelForCreationDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="422">FridgeModelForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
         [Authorize(Roles ="Administrator")]
@@ -123,10 +131,12 @@ namespace Server.Controllers
         /// <param name="fridgeModelId"></param>
         /// <returns></returns>
         /// <response code="204">Fridge model deleted</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge model with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpDelete("{fridgeModelId}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
@@ -148,6 +158,7 @@ namespace Server.Controllers
         /// <param name="fridgeModel"></param>
         /// <returns></returns>
         /// <response code="204">Fridge model updated</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="400">FridgeModelForUpdateDto is null</response>
         /// <response code="404">Fridge model with this id not found</response>
         /// <response code="422">FridgeModelForUpdateDto is invalid</response>
@@ -155,6 +166,7 @@ namespace Server.Controllers
         [HttpPut("{fridgeModelId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]

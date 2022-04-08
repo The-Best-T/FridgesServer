@@ -35,8 +35,10 @@ namespace Server.Controllers
         /// <param></param>
         /// <returns>All avaiable queries in header</returns>
         /// <response code="200">Returns all avaiable queries in header</response>
+        /// <response code="401">Not authorized</response>
         [HttpOptions]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public IActionResult GetFridgeProductsOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
@@ -50,10 +52,12 @@ namespace Server.Controllers
         /// <param name="productId"></param>
         /// <returns>One product from the fridge</returns>
         /// <response code="200">Returns one product from the fridge</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge or product in this fridge with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet("{productId}", Name = "GetProductForFridge")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateFridgeProductExistsAttribute))]
@@ -72,11 +76,13 @@ namespace Server.Controllers
         /// <param name="parameters"></param>
         /// <returns>List of products from the fridge </returns>
         /// <response code="200">Returns list of products from the fridge</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateFridgeExistsAttribute))]
@@ -100,12 +106,14 @@ namespace Server.Controllers
         /// <returns>The newly product from the fridge</returns>
         /// <response code="201">Returns the newly product from the fridge</response>
         /// <response code="400">FridgeProductForCreationDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge or product with this id not found</response>
         /// <response code="422">FridgeProductForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
@@ -148,10 +156,12 @@ namespace Server.Controllers
         /// <param name="productId"></param>
         /// <returns></returns>
         /// <response code="204">Product deleted from the fridge</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge or product in this fridge with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpDelete("{productId}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
@@ -175,12 +185,14 @@ namespace Server.Controllers
         /// <returns></returns>
         /// <response code="204">Product deleted from the fridge</response>
         /// <response code="400">FridgeProductForCreationDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge or product with this id not found</response>
         /// <response code="422">FridgeProductForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPut("{productId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]

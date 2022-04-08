@@ -35,8 +35,10 @@ namespace Server.Controllers
         /// <param></param>
         /// <returns>All avaiable queries in header</returns>
         /// <response code="200">Returns all avaiable queries in header</response>
+        /// <response code="401">Not authorized</response>
         [HttpOptions]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public IActionResult GetProductsOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
@@ -49,10 +51,12 @@ namespace Server.Controllers
         /// <param name="productId"></param>
         /// <returns>One product</returns>
         /// <response code="200">Returns one product</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Product with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet("{productId}", Name = "GetProductById")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [ServiceFilter(typeof(ValidateProductExistsAttribute))]
@@ -70,10 +74,12 @@ namespace Server.Controllers
         /// <param name="parameters"></param>
         /// <returns> list of products</returns>
         /// <response code="200">Returns all products</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetProducts([FromQuery] ProductParameters parameters)
         {
@@ -94,11 +100,13 @@ namespace Server.Controllers
         /// <returns>A newly created product</returns>
         /// <response code="201">Returns the newly product</response>
         /// <response code="400">ProductForCreationDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="422">ProductForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
@@ -124,10 +132,12 @@ namespace Server.Controllers
         /// <param name="productId"></param>
         /// <returns></returns>
         /// <response code="204">Product deleted</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Product with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpDelete("{productId}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
@@ -150,12 +160,14 @@ namespace Server.Controllers
         /// <returns></returns>
         /// <response code="204">product updated</response>
         /// <response code="400">ProductForUpdateDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Product with this id not found</response>
         /// <response code="422">ProductForUpdateDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPut("{productId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]

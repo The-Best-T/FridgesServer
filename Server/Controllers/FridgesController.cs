@@ -34,8 +34,10 @@ namespace Server.Controllers
         /// <param></param>
         /// <returns>All avaiable queries in header</returns>
         /// <response code="200">Returns all avaiable queries in header</response>
+        /// <response code="401">Not authorized</response>
         [HttpOptions]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public IActionResult GetFridgesOptions()
         {
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
@@ -48,10 +50,12 @@ namespace Server.Controllers
         /// <param name="fridgeId"></param>
         /// <returns>One fridge</returns>
         /// <response code="200">Returns one fridge</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpGet("{fridgeId}", Name = "GetFridgeById")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [ServiceFilter((typeof(ValidateFridgeExistsAttribute)))]
@@ -69,10 +73,12 @@ namespace Server.Controllers
         /// <param name="parameters"></param>
         /// <returns> list of fridgs</returns>
         /// <response code="200">Returns all fridgs</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="500">Server error</response>
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetFridges([FromQuery] FridgeParameters parameters)
         {
@@ -92,12 +98,14 @@ namespace Server.Controllers
         /// <returns>A newly created fridge</returns>
         /// <response code="201">Returns the newly fridge</response>
         /// <response code="400">FridgeForCreationDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">This fridge model not found</response>
         /// <response code="422">FridgeForCreationDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
@@ -133,10 +141,12 @@ namespace Server.Controllers
         /// <param name="fridgeId"></param>
         /// <returns></returns>
         /// <response code="204">Fridge deleted</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge with this id not found</response>
         /// <response code="500">Server error</response>
         [HttpDelete("{fridgeId}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Authorize(Roles = "Administrator")]
@@ -159,12 +169,14 @@ namespace Server.Controllers
         /// <returns></returns>
         /// <response code="204">Fridge updated</response>
         /// <response code="400">FridgeForUpdateDto is null</response>
+        /// <response code="401">Not authorized</response>
         /// <response code="404">Fridge with this id not found</response>
         /// <response code="422">FridgeForUpdateDto is invalid</response>
         /// <response code="500">Server error</response>
         [HttpPut("{fridgeId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
@@ -187,8 +199,10 @@ namespace Server.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Fridges are filled</response>
+        /// <response code="401">Not authorized</response>
         [HttpPost("fill")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> FillFridges()
         {
