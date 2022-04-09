@@ -47,10 +47,12 @@ namespace Server.Controllers
         /// <param name="userForRegistration"></param>
         /// <returns></returns>
         /// <response code="201">Registration was success</response>
-        /// <response code="400">Model for registration is invalid or user is already exists</response>
+        /// <response code="400">Model for registration is null or user is already exists</response>
+        /// <response code="422">Model for registration is invalid</response>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -75,10 +77,15 @@ namespace Server.Controllers
         /// <param name="user"></param>
         /// <returns>JWT</returns>
         /// <response code="200">Authentication was success</response>
+        /// <response code="400">Model for authorization is null</response>
         /// <response code="401">Wrong login or password</response>
+        /// <response code="422">Model for authorization is invalid</response>
+
         [HttpPost("login")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
         {
