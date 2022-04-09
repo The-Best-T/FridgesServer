@@ -18,8 +18,6 @@ namespace Server
             LogManager.LoadConfiguration(
                 string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
-
-            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
