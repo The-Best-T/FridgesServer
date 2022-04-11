@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/models"),Authorize]
+    [Route("api/models"), Authorize]
     [ApiController]
     public class FridgeModelsController : ControllerBase
     {
@@ -108,7 +108,7 @@ namespace Server.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(422)]
         [ProducesResponseType(500)]
-        [Authorize(Roles ="Administrator")]
+        [Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFridgeModel([FromBody] FridgeModelForCreationDto fridgeModel)
         {
@@ -120,7 +120,7 @@ namespace Server.Controllers
             var fridgeModelToReturn = _mapper.Map<FridgeModelDto>(fridgeModelEntity);
 
             return CreatedAtRoute(
-                "GetFridgeModelById", 
+                "GetFridgeModelById",
                 new { fridgeModelId = fridgeModelToReturn.Id },
                 fridgeModelToReturn);
         }

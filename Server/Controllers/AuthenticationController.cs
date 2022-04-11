@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using Contracts;
+using Entities.Dto.User;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Server.ActionFilters;
 using System.Threading.Tasks;
-using Entities.Dto.User;
-using Contracts;
 
 namespace Server.Controllers
 {
@@ -37,7 +37,7 @@ namespace Server.Controllers
         [ProducesResponseType(200)]
         public IActionResult GetProductsOptions()
         {
-            Response.Headers.Add("Allow","OPTIONS, POST");
+            Response.Headers.Add("Allow", "OPTIONS, POST");
             return Ok();
         }
 
@@ -56,9 +56,9 @@ namespace Server.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
-            var user=_mapper.Map<User>(userForRegistration);
+            var user = _mapper.Map<User>(userForRegistration);
 
-            var result=await _userManager.CreateAsync(user,userForRegistration.Password);
+            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -66,7 +66,7 @@ namespace Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _userManager.AddToRoleAsync(user,"Client");
+            await _userManager.AddToRoleAsync(user, "Client");
 
             return StatusCode(201);
         }

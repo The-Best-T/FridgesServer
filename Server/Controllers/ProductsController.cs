@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/products"),Authorize]
+    [Route("api/products"), Authorize]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -121,7 +121,7 @@ namespace Server.Controllers
             var productToReturn = _mapper.Map<ProductDto>(productEntity);
 
             return CreatedAtRoute(
-                "GetProductById", 
+                "GetProductById",
                 new { productId = productToReturn.Id },
                 productToReturn);
         }

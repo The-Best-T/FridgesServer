@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 namespace Server.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/fridges/{fridgeId}/products"),Authorize]
+    [Route("api/fridges/{fridgeId}/products"), Authorize]
     [ApiController]
-    
+
     public class FridgeProductsController : ControllerBase
     {
         private readonly ILoggerManager _logger;
