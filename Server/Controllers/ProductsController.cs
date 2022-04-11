@@ -90,7 +90,7 @@ namespace Server.Controllers
 
             var productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
 
-            return Ok(productsDto);
+            return Ok(productsDto); 
         }
 
         /// <summary>
