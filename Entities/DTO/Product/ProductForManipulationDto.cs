@@ -7,7 +7,7 @@ namespace Entities.Dto.Product
         [MaxLength(30, ErrorMessage = "Maximum length for the Product name is 30 characters.")]
         public string Name { get; set; }
 
-        [Range(1, 99, ErrorMessage = "DefaultQuantity is required and it must be in range(1,99).")]
+        [Range(1, 99, ErrorMessage = "DefaultQuantity is required and it must be in range [1,99].")]
         public int DefaultQuantity { get; set; }
     }
 }

@@ -101,7 +101,7 @@ namespace Server.Extensions
         {
             var builder = services.AddIdentity<User, IdentityRole>(o =>
              {
-                 o.Password.RequireDigit = false;
+                 o.Password.RequireDigit = true;
                  o.Password.RequireLowercase = false;
                  o.Password.RequireUppercase = false;
                  o.Password.RequireNonAlphanumeric = false;
