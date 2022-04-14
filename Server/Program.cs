@@ -16,8 +16,8 @@ namespace Server
         {
             var host = CreateHostBuilder(args).Build();
 
-            await DbInitialize(host);
             await AddMigrations(host);
+            await DbInitialize(host);
 
             host.Run();
         }
